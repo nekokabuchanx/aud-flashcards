@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>USCPA AUD 論点フラッシュカード｜ねこかぶ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue: #1F3A5F;
+    --blue-deep: #142A47;
+    --gray: #5B6470;
+    --gray-light: #F0F2F5;
+    --gray-line: #D5D9DE;
+    --black: #222222;
+    --white: #FFFFFF;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      repeating-linear-gradient(
+        to bottom,
+        transparent 0px, transparent 34px,
+        var(--gray-line) 34px, var(--gray-line) 35px
+      ),
+      var(--white);
+    color:var(--black);
+    font-family:"Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{color:inherit;text-decoration:none;}
+
+  /* ---------- Header ---------- */
+  header{
+    background:var(--blue);
+    color:var(--white);
+    padding:56px 24px 44px;
+    position:relative;
+    overflow:hidden;
+  }
+  header::after{
+    content:"";
+    position:absolute;
+    left:0; right:0; bottom:0;
+    height:6px;
+    background:repeating-linear-gradient(
+      to right,
+      var(--white) 0 14px,
+      transparent 14px 24px
+    );
+    opacity:.25;
+  }
+  .wrap{max-width:1040px;margin:0 auto;padding:0 20px;}
+  .eyebrow{
+    font-size:13px;
+    letter-spacing:.18em;
+    font-weight:700;
+    color:#AFC0D6;
+    text-transform:uppercase;
+  }
+  h1{
+    font-family:"Shippori Mincho", serif;
+    font-weight:800;
+    font-size:clamp(32px, 5vw, 52px);
+    margin:10px 0 6px;
+    letter-spacing:.02em;
+  }
+  .lede{
+    color:#D7E0EC;
+    font-size:15px;
+    max-width:560px;
+    margin:0;
+  }
+  .stat-row{
+    display:flex;
+    gap:28px;
+    margin-top:28px;
+    flex-wrap:wrap;
+  }
+  .stat{
+    border-left:2px solid rgba(255,255,255,.35);
+    padding-left:12px;
+  }
+  .stat b{display:block;font-size:22px;font-weight:900;}
+  .stat span{font-size:12px;color:#AFC0D6;}
+
+  /* ---------- Sections ---------- */
+  main{max-width:1040px;margin:0 auto;padding:40px 20px 20px;}
+
+  .section{margin-bottom:44px;}
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+    margin-bottom:16px;
+  }
+  .section-tag{
+    background:var(--blue);
+    color:var(--white);
+    font-size:12px;
+    font-weight:700;
+    padding:4px 10px;
+    letter-spacing:.05em;
+    white-space:nowrap;
+  }
+  .section-title{
+    font-size:16px;
+    font-weight:700;
+    color:var(--black);
+  }
+  .section-range{
+    font-size:12px;
+    color:var(--gray);
+    margin-left:auto;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(230px, 1fr));
+    gap:10px;
+  }
+
+  .card{
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    background:var(--white);
+    border:1px solid var(--gray-line);
+    padding:14px 14px;
+    transition:border-color .15s ease, background .15s ease, transform .15s ease;
+  }
+  .card:hover{
+    border-color:var(--blue);
+    background:var(--gray-light);
+    transform:translateY(-1px);
+  }
+  .tick{
+    flex:0 0 auto;
+    width:30px;height:30px;
+    border:1.5px solid var(--blue);
+    color:var(--blue);
+    font-weight:900;
+    font-size:12px;
+    display:flex;align-items:center;justify-content:center;
+    font-family:"Shippori Mincho", serif;
+  }
+  .card:hover .tick{
+    background:var(--blue);
+    color:var(--white);
+  }
+  .card-text .en{
+    font-size:13.5px;
+    font-weight:700;
+    color:var(--black);
+    line-height:1.35;
+  }
+  .card-text .jp{
+    font-size:12px;
+    color:var(--gray);
+    margin-top:3px;
+  }
+
+  /* ---------- Footer ---------- */
+  footer{
+    max-width:1040px;
+    margin:20px auto 0;
+    padding:26px 20px 50px;
+    border-top:1px solid var(--gray-line);
+  }
+  .foot-links{
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+    font-size:13px;
+    margin-bottom:14px;
+  }
+  .foot-links a{
+    color:var(--blue);
+    font-weight:700;
+    border-bottom:1px solid transparent;
+  }
+  .foot-links a:hover{border-bottom-color:var(--blue);}
+  .copyright{font-size:11px;color:var(--gray);}
+
+  @media (max-width:520px){
+    header{padding:40px 18px 34px;}
+    .stat-row{gap:18px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">USCPA AUD ・ ねこかぶ攻略請負人</div>
+    <h1>論点フラッシュカード</h1>
+    <p class="lede">監査プロセスの流れ（計画 → 内部統制 → 実証手続 → 報告）に沿って、Ch1〜Ch23を一気に見返せる一覧です。</p>
+    <div class="stat-row">
+      <div class="stat"><b>23</b><span>CHAPTERS</span></div>
+      <div class="stat"><b>4</b><span>SECTIONS OF STANDARD</span></div>
+      <div class="stat"><b>1</b><span>PAGE TO SCAN THEM ALL</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <div class="section">
+    <div class="section-head">
+      <span class="section-tag">01</span>
+      <span class="section-title">監査の基礎とプランニング</span>
+      <span class="section-range">Ch1–5</span>
+    </div>
+    <div class="grid">
+      <a class="card" href="aud_ch1.html"><span class="tick">01</span><span class="card-text"><span class="en">Overview of Financial Statements Audits</span><span class="jp">財務諸表監査の全体像</span></span></a>
+      <a class="card" href="aud_ch2.html"><span class="tick">02</span><span class="card-text"><span class="en">Important Concepts in FS Audits</span><span class="jp">監査における重要概念</span></span></a>
+      <a class="card" href="aud_ch3.html"><span class="tick">03</span><span class="card-text"><span class="en">Audit Reporting: Part I</span><span class="jp">監査報告の基礎</span></span></a>
+      <a class="card" href="aud_ch4.html"><span class="tick">04</span><span class="card-text"><span class="en">Audit Reporting: Part II</span><span class="jp">監査報告の応用</span></span></a>
+      <a class="card" href="aud_ch5.html"><span class="tick">05</span><span class="card-text"><span class="en">Engagement Planning</span><span class="jp">監査契約の計画</span></span></a>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <span class="section-tag">02</span>
+      <span class="section-title">内部統制と実証手続</span>
+      <span class="section-range">Ch6–10</span>
+    </div>
+    <div class="grid">
+      <a class="card" href="aud_ch6.html"><span class="tick">06</span><span class="card-text"><span class="en">Internal Control: Part I</span><span class="jp">内部統制の基礎</span></span></a>
+      <a class="card" href="aud_ch7.html"><span class="tick">07</span><span class="card-text"><span class="en">Internal Control: Part II</span><span class="jp">内部統制の応用</span></span></a>
+      <a class="card" href="aud_ch8.html"><span class="tick">08</span><span class="card-text"><span class="en">Substantive Tests: Part I</span><span class="jp">実証手続の基礎</span></span></a>
+      <a class="card" href="aud_ch9.html"><span class="tick">09</span><span class="card-text"><span class="en">Substantive Tests: Part II</span><span class="jp">実証手続の応用</span></span></a>
+      <a class="card" href="aud_ch10.html"><span class="tick">10</span><span class="card-text"><span class="en">Audit of ICFR</span><span class="jp">財務報告に係る内部統制監査</span></span></a>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <span class="section-tag">03</span>
+      <span class="section-title">その他の監査手続・報告</span>
+      <span class="section-range">Ch11–14</span>
+    </div>
+    <div class="grid">
+      <a class="card" href="aud_ch11.html"><span class="tick">11</span><span class="card-text"><span class="en">Other Required Audit Procedures</span><span class="jp">その他の必要な監査手続</span></span></a>
+      <a class="card" href="aud_ch12.html"><span class="tick">12</span><span class="card-text"><span class="en">Other Considerations in Audits</span><span class="jp">監査上のその他の考慮事項</span></span></a>
+      <a class="card" href="aud_ch13.html"><span class="tick">13</span><span class="card-text"><span class="en">Other Reports Related to Audits</span><span class="jp">その他の監査関連報告書</span></span></a>
+      <a class="card" href="aud_ch14.html"><span class="tick">14</span><span class="card-text"><span class="en">Audit Procedures Case Studies</span><span class="jp">監査手続の事例研究</span></span></a>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <span class="section-tag">04</span>
+      <span class="section-title">保証業務・IT監査・サンプリング</span>
+      <span class="section-range">Ch15–18</span>
+    </div>
+    <div class="grid">
+      <a class="card" href="aud_ch15.html"><span class="tick">15</span><span class="card-text"><span class="en">Accounting and Review Services</span><span class="jp">会計・レビュー業務</span></span></a>
+      <a class="card" href="aud_ch16.html"><span class="tick">16</span><span class="card-text"><span class="en">Attestation and Assurance Services</span><span class="jp">証明・保証業務</span></span></a>
+      <a class="card" href="aud_ch17.html"><span class="tick">17</span><span class="card-text"><span class="en">Audits with Information Technology</span><span class="jp">IT環境下の監査</span></span></a>
+      <a class="card" href="aud_ch18.html"><span class="tick">18</span><span class="card-text"><span class="en">Audit Sampling</span><span class="jp">監査サンプリング</span></span></a>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <span class="section-tag">05</span>
+      <span class="section-title">職業倫理とデータ分析</span>
+      <span class="section-range">Ch19–20</span>
+    </div>
+    <div class="grid">
+      <a class="card" href="aud_ch19.html"><span class="tick">19</span><span class="card-text"><span class="en">Professional Responsibilities</span><span class="jp">職業専門家としての責任</span></span></a>
+      <a class="card" href="aud_ch20.html"><span class="tick">20</span><span class="card-text"><span class="en">Audit Data Analytics</span><span class="jp">監査データ分析</span></span></a>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <span class="section-tag">06</span>
+      <span class="section-title">経済学（BEC範囲）</span>
+      <span class="section-range">Ch21–23</span>
+    </div>
+    <div class="grid">
+      <a class="card" href="aud_ch21.html"><span class="tick">21</span><span class="card-text"><span class="en">Economics Overview</span><span class="jp">経済学概論</span></span></a>
+      <a class="card" href="aud_ch22.html"><span class="tick">22</span><span class="card-text"><span class="en">Microeconomic Concepts</span><span class="jp">ミクロ経済学の概念</span></span></a>
+      <a class="card" href="aud_ch23.html"><span class="tick">23</span><span class="card-text"><span class="en">Macroeconomic Concepts</span><span class="jp">マクロ経済学の概念</span></span></a>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="foot-links">
+    <a href="https://note.com/nekokabuchanx" target="_blank" rel="noopener">note でフル教材を見る</a>
+    <a href="https://nekokabuchanx.github.io/far-flashcards/" target="_blank" rel="noopener">FAR論点フラッシュカードはこちら</a>
+  </div>
+  <div class="copyright">© 2026 @nekokabuchanx All Rights Reserved.</div>
+</footer>
+
+</body>
+</html>
