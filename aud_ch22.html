@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>USCPA・AUD論点まとめ CH22 フラッシュカード</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap');
+
+  :root{
+    --ink:#14213D;
+    --paper:#F6F4EE;
+    --paper2:#EFEBE1;
+    --gold:#B8862B;
+    --teal:#1F5F5B;
+    --warn:#9C3B2E;
+    --line:#D8D2C2;
+    --text:#232323;
+    --sub:#6B6558;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    font-family:'Noto Sans JP','メイリオ',sans-serif;
+    color:var(--text);
+    padding:28px 20px 60px;
+  }
+
+  .masthead{
+    max-width:980px;margin:0 auto 22px;
+    border-bottom:3px solid var(--ink);
+    padding-bottom:14px;
+    display:flex;justify-content:space-between;align-items:flex-end;
+    gap:16px;flex-wrap:wrap;
+  }
+  .masthead .brand{font-size:11px;letter-spacing:.14em;color:var(--sub);text-transform:uppercase;}
+  .masthead h1{
+    font-family:'Noto Serif JP';font-weight:900;
+    font-size:24px;color:var(--ink);margin:2px 0 0;letter-spacing:.02em;
+  }
+  .masthead .en{font-size:12px;color:var(--sub);font-style:italic;margin-top:2px;}
+  .progress-wrap{text-align:right;min-width:150px;}
+  .progress-label{font-size:11px;color:var(--sub);margin-bottom:4px;}
+  .progress-bar{width:150px;height:6px;background:var(--paper2);border:1px solid var(--line);}
+  .progress-fill{height:100%;background:var(--teal);width:0%;transition:width .35s;}
+  .progress-count{font-size:13px;color:var(--ink);font-weight:700;margin-top:4px;}
+
+  .flowmap{
+    max-width:980px;margin:0 auto 12px;
+    background:var(--ink);color:var(--paper);
+    padding:16px 20px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  }
+  .flowmap .step{
+    font-size:13px;font-weight:700;padding:5px 10px;border:1px solid rgba(246,244,238,.35);
+    white-space:nowrap;
+  }
+  .flowmap .arrow{color:var(--gold);font-weight:900;}
+  .flow-caption{max-width:980px;margin:0 auto 26px;font-size:11.5px;color:var(--sub);text-align:right;font-style:italic;}
+
+  .learning-map{max-width:980px;margin:0 auto 32px;overflow-x:auto;}
+  .learning-map table{width:100%;border-collapse:collapse;font-size:12.5px;}
+  .learning-map th{
+    background:var(--ink);color:var(--paper);text-align:left;padding:8px 10px;font-weight:700;
+  }
+  .learning-map td{padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
+  .learning-map tr:nth-child(even) td{background:var(--paper2);}
+  .learning-map .no{color:var(--gold);font-weight:900;width:28px;}
+  .learning-map .topic{font-weight:700;color:var(--ink);width:220px;}
+  .learning-map .rule{color:var(--teal);font-weight:700;white-space:nowrap;}
+
+  .grid{
+    max-width:980px;margin:0 auto;
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;
+  }
+  .card-slot{perspective:1600px;height:400px;}
+  .card{
+    position:relative;width:100%;height:100%;
+    transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,.2,.2,1);
+    cursor:pointer;
+  }
+  .card-slot.flipped .card{transform:rotateY(180deg);}
+  .face{
+    position:absolute;inset:0;backface-visibility:hidden;
+    border:1px solid var(--ink);display:flex;flex-direction:column;
+    padding:16px 16px 14px;overflow:hidden;
+  }
+  .front{background:var(--paper);}
+  .back{background:var(--ink);color:var(--paper);transform:rotateY(180deg);}
+
+  .tag-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+  .no-badge{font-family:'Noto Serif JP';font-weight:900;font-size:18px;color:var(--gold);}
+  .done-badge{font-size:10px;letter-spacing:.08em;color:var(--sub);border:1px solid var(--line);padding:2px 6px;}
+  .front .done-badge.on{background:var(--teal);color:#fff;border-color:var(--teal);}
+
+  .front h2{
+    font-family:'Noto Serif JP';font-size:14.5px;font-weight:700;color:var(--ink);
+    margin:0 0 8px;line-height:1.3;
+  }
+  .q-label{font-size:10px;letter-spacing:.1em;color:var(--gold);font-weight:700;margin-bottom:6px;}
+  .front .question{
+    font-size:13.5px;font-weight:700;color:var(--warn);line-height:1.5;margin-bottom:10px;
+    padding:8px 10px;background:var(--paper2);border-left:3px solid var(--warn);
+  }
+  .front .why{font-size:12px;color:var(--sub);line-height:1.6;margin-bottom:10px;}
+  .front .rule-tag{
+    margin-top:auto;font-size:11px;color:var(--teal);font-weight:700;
+    border-top:1px dashed var(--line);padding-top:8px;
+  }
+  .flip-hint{font-size:10px;color:var(--sub);text-align:right;margin-top:6px;}
+
+  .back .core{font-size:12px;line-height:1.65;margin-bottom:8px;}
+  .back .conv{
+    font-size:11.5px;line-height:1.55;margin-bottom:7px;padding-bottom:7px;
+    border-bottom:1px solid rgba(246,244,238,.15);
+  }
+  .back .conv:last-of-type{border-bottom:none;}
+  .back .conv .x{color:#E0A79A;}
+  .back .conv .o{color:#9FD8B5;}
+  .back .summary{
+    font-size:11.5px;font-weight:700;line-height:1.5;color:#fff;
+    background:rgba(255,255,255,.08);padding:7px 9px;margin-top:auto;border-left:3px solid var(--gold);
+  }
+
+  footer{max-width:980px;margin:36px auto 0;font-size:11px;color:var(--sub);text-align:center;}
+</style>
+</head>
+<body>
+
+  <div class="masthead">
+    <div>
+      <div class="brand">シン・AUD論点厳選</div>
+      <h1>CH22 Microeconomic Concepts</h1>
+      <div class="en">Decision Framework — 問題を見た瞬間に「どのルールで判断するか」を決める</div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label">習得進捗</div>
+      <div class="progress-bar"><div class="progress-fill" id="pf"></div></div>
+      <div class="progress-count" id="pc">0 / 10</div>
+    </div>
+  </div>
+
+  <div class="flowmap">
+    <div class="step">曲線上の移動かシフトかを見分け</div>
+    <div class="arrow">→</div>
+    <div class="step">弾力性で反応度を測る</div>
+    <div class="arrow">→</div>
+    <div class="step">市場均衡と政府介入を判断</div>
+    <div class="arrow">→</div>
+    <div class="step">市場構造を識別する</div>
+  </div>
+  <div class="flow-caption">ミクロ経済学は需給曲線の動きの見分けから始まり、弾力性による反応度の測定、市場均衡と政府介入の影響評価を経て、4つの市場構造の識別へとつながる。</div>
+
+  <div class="learning-map">
+    <table>
+      <tr><th class="no">No.</th><th class="topic">論点</th><th>判定ルール（暗記フック）</th></tr>
+      <tr><td class="no">01</td><td class="topic">需要の法則</td><td class="rule">曲線上の移動(価格のみ)か、曲線自体のシフト(他要因)か</td></tr>
+      <tr><td class="no">02</td><td class="topic">需要の価格弾力性</td><td class="rule">価格変化率に対する需要量変化率の比</td></tr>
+      <tr><td class="no">03</td><td class="topic">弾力係数による財の5分類</td><td class="rule">Ed=1を境に弾力的/非弾力的、極端値は完全弾力/非弾力</td></tr>
+      <tr><td class="no">04</td><td class="topic">財の種類と交差弾力性</td><td class="rule">正常財/下級財は所得、代替財/補完財は他財の価格で判定</td></tr>
+      <tr><td class="no">05</td><td class="topic">供給の法則</td><td class="rule">供給も需要と同じ判断軸で移動かシフトかを判定</td></tr>
+      <tr><td class="no">06</td><td class="topic">市場均衡</td><td class="rule">同方向シフトなら数量確定、逆方向なら価格確定</td></tr>
+      <tr><td class="no">07</td><td class="topic">政府の介入</td><td class="rule">上限価格は均衡価格以下→不足、最低価格は超過供給</td></tr>
+      <tr><td class="no">08</td><td class="topic">4つの市場構造の比較</td><td class="rule">企業数・参入障壁・差別化・長期利潤の4点で識別</td></tr>
+      <tr><td class="no">09</td><td class="topic">不完全競争の3類型</td><td class="rule">独占=MC=MR≠P、寡占=屈折需要曲線</td></tr>
+      <tr><td class="no">10</td><td class="topic">業界分析の3ツールとSCM</td><td class="rule">競合・弾力性・目標市場分析、SCMは全体最適</td></tr>
+    </table>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <footer>クリック / タップでカードが反転します。裏面を見た論点は自動でチェックが付きます。 © 2026 @nekokabuchanx</footer>
+
+<script>
+const cards = [
+{
+"no": "01",
+"title": "需要の法則",
+"rule": "曲線上の移動(価格のみ)か、曲線自体のシフト(他要因)か",
+"q": "製品自体の価格変化は、需要曲線をシフトさせる要因の一つである。",
+"why": "価格変化は曲線上の移動（需要量の変化）であり、曲線をシフトさせる要因ではない。",
+"conv": [
+[
+"製品自体の価格変化は需要曲線をシフトさせる",
+"価格変化は曲線上の移動で、シフト要因ではない"
+],
+[
+"製品ボイコットは需要曲線を右にシフトさせる",
+"不買運動は需要の減少＝左シフト"
+],
+[
+"需要の法則によれば、需要曲線は右上がりである",
+"価格が下がれば需要量が増えるため右下がり"
+]
+],
+"summary": "需要量の変化＝曲線上の移動（価格のみ）。需要の変化＝曲線のシフト（嗜好・所得・期待価格・相対価格の変化）。"
+},
+{
+"no": "02",
+"title": "需要の価格弾力性",
+"rule": "価格変化率に対する需要量変化率の比",
+"q": "消費者の所得が上がると、価格変動に対する需要の弾力性は高くなる。",
+"why": "所得が上がると価格変動に需要は左右されにくくなる（弾力性は関係が逆）。",
+"conv": [
+[
+"所得が上がると価格弾力性は高くなる",
+"所得が上がると価格変動に需要は左右されにくくなる"
+],
+[
+"弾力性は必要性が高いほど、また代替品が多いほど低くなる",
+"必要性が低い場合と代替品が多い場合に弾力性は高くなる"
+],
+[
+"価格弾力的な商品は値上げによって売上が増える",
+"弾力的な商品は値下げにより売上増"
+]
+],
+"summary": "Ed＝|需要量変化率÷価格変化率|（中点法）。弾力的商品は値下げで売上増、非弾力的商品は値上げで売上増。"
+},
+{
+"no": "03",
+"title": "弾力係数による財の5分類",
+"rule": "Ed=1を境に弾力的/非弾力的、極端値は完全弾力/非弾力",
+"q": "インシュリンのように代替品がなく絶対に必要な財は、単に『非弾力的（inelastic）』と分類される。",
+"why": "そのような財は『完全非弾力的（perfectly inelastic）』という極端な分類に該当する。",
+"conv": [
+[
+"代替品がなく絶対に必要な財は単に非弾力的と分類される",
+"完全非弾力的という極端な分類に該当する"
+],
+[
+"Ed＞1は非弾力的（inelastic）に分類される",
+"Ed＞1は弾力的（elastic）に分類される"
+],
+[
+"完全弾力的な財の需要曲線は垂直である",
+"完全弾力的な財の需要曲線は水平"
+]
+],
+"summary": "Ed=∞完全弾力的（水平）／Ed>1弾力的／Ed=1単位弾力的／0<Ed<1非弾力的／Ed=0完全非弾力的（垂直）。"
+},
+{
+"no": "04",
+"title": "財の種類と交差弾力性",
+"rule": "正常財/下級財は所得、代替財/補完財は他財の価格で判定",
+"q": "映画館の値上げによってビデオ店の売上が増えた場合、映画とビデオは補完財の関係にある。",
+"why": "一方の値上げで他方の需要が増える関係は代替財（競合関係）。",
+"conv": [
+[
+"映画館の値上げでビデオ店の売上増加は補完財の関係を示す",
+"代替財の関係を示す（競合関係）"
+],
+[
+"下級財は所得が増加すると購入量も増える財である",
+"下級財は所得が増加すると購入量が減る財"
+],
+[
+"交差弾力性が負（マイナス）であれば代替財と判定する",
+"交差弾力性が正なら代替財、負なら補完財"
+]
+],
+"summary": "正常財（所得↑で購入↑）／下級財（所得↑で購入↓）。代替財（交差弾力性+）／補完財（交差弾力性-）。"
+},
+{
+"no": "05",
+"title": "供給の法則",
+"rule": "供給も需要と同じ判断軸で移動かシフトかを判定",
+"q": "将来的な価格下落が予想される場合、供給曲線は左にシフトする。",
+"why": "将来価格下落が予想される場合は売り急ぎが発生し、供給曲線は右にシフトする。",
+"conv": [
+[
+"将来価格下落が予想される場合、供給曲線は左にシフトする",
+"売り急ぎが発生し、供給曲線は右にシフトする"
+],
+[
+"消費者の嗜好の変化は供給曲線をシフトさせる要因である",
+"需要曲線をシフトさせる要因"
+],
+[
+"生産コストの下落は供給曲線を左にシフトさせる",
+"生産コストの下落は供給曲線を右にシフトさせる"
+]
+],
+"summary": "供給の変化（シフト）＝生産コスト・技術・要素価格・将来価格予想・税/補助金の変化。価格変化は曲線上の移動。"
+},
+{
+"no": "06",
+"title": "市場均衡",
+"rule": "同方向シフトなら数量確定、逆方向なら価格確定",
+"q": "需要と供給がともに増加（右シフト）した場合、均衡数量は必ず増加し、均衡価格も必ず上昇する。",
+"why": "同方向に動いた場合、数量の増加は確定するが、価格が上昇するか下落するかは不確定。",
+"conv": [
+[
+"需要・供給がともに増加すれば、均衡価格も必ず上昇する",
+"価格はどちらもあり得る（不確定）。確定するのは数量の増加"
+],
+[
+"需要のみ増加（右シフト）すると、均衡価格は下落する",
+"均衡価格は上昇する（数量も増加）"
+],
+[
+"需要増加と供給減少が同時に起きると、均衡数量は必ず増加する",
+"均衡数量はどちらもあり得る（不確定）。価格の上昇は確定"
+]
+],
+"summary": "同方向シフト→数量は確定、価格は不確定。逆方向シフト→価格は確定、数量は不確定。"
+},
+{
+"no": "07",
+"title": "政府の介入",
+"rule": "上限価格は均衡価格以下→不足、最低価格は超過供給",
+"q": "上限価格（ceiling price）が設定されると、市場では供給過剰（超過供給）が発生する。",
+"why": "上限価格は均衡価格以下に設定され、需要量が供給量を上回る供給不足が発生する。",
+"conv": [
+[
+"上限価格の設定は市場に供給過剰をもたらす",
+"供給不足（shortage）をもたらす"
+],
+[
+"最低価格（floor price）は消費者保護を目的として設定される",
+"生産者・産業保護を目的として設定される"
+],
+[
+"課税は需要の価格弾力性に関わらず総売上への影響は一定である",
+"需要が弾力的なら総売上が落ち、非弾力的なら総売上は増える"
+]
+],
+"summary": "上限価格（均衡価格以下）→供給不足・消費者保護。最低価格（均衡価格超）→超過供給・生産者保護。"
+},
+{
+"no": "08",
+"title": "4つの市場構造の比較",
+"rule": "企業数・参入障壁・差別化・長期利潤の4点で識別",
+"q": "完全競争市場では、企業は長期的に正の利潤を得ることができる。",
+"why": "完全競争市場では長期的に利潤を得られない。",
+"conv": [
+[
+"完全競争市場では長期的に正の利潤を得られる",
+"完全競争市場では長期的に利潤を得られない"
+],
+[
+"独占的競争市場には参入障壁が高い",
+"独占的競争市場の参入障壁は低い"
+],
+[
+"単一の供給者（single seller）は寡占の特徴である",
+"単一の供給者は独占の特徴"
+]
+],
+"summary": "完全競争（多数・障壁なし・利潤なし）／独占（1社・絶対的障壁・利潤あり）／独占的競争（多数・低障壁・利潤なし）／寡占（少数・高障壁・利潤あり）。"
+},
+{
+"no": "09",
+"title": "不完全競争の3類型",
+"rule": "独占=MC=MR≠P、寡占=屈折需要曲線",
+"q": "独占企業の利潤最大化点では、限界収益（MR）が価格（P）と等しくなる。",
+"why": "独占ではMR＜P（右下がりの需要曲線のため）。利潤最大化はMC＝MRの点。",
+"conv": [
+[
+"独占企業の利潤最大化点ではMRが価格Pと等しくなる",
+"独占ではP＞MRとなり、MR＝Pではない"
+],
+[
+"寡占市場では、他社は値下げに追従しないが値上げには一斉追従する",
+"値上げには追従せず、値下げには一斉追従する（逆）"
+],
+[
+"独占的競争市場は価格競争が主体である",
+"製品差別化を背景とした非価格競争が主体"
+]
+],
+"summary": "独占＝MC=MR、P>MR、右下がり需要曲線。寡占＝屈折需要曲線（値上げ非追従・値下げ追従）。独占的競争＝非価格競争主体。"
+},
+{
+"no": "10",
+"title": "業界分析の3ツールとSCM",
+"rule": "競合・弾力性・目標市場分析、SCMは全体最適",
+"q": "SCM（サプライチェーン・マネジメント）は、自社部門内の情報共有のみに焦点を当てた手法である。",
+"why": "SCMは会社組織の垣根を越えて統合し、部門間・企業間のパートナーシップの確立を目指す手法。",
+"conv": [
+[
+"SCMは自社部門内の情報共有のみに焦点を当てる",
+"組織の垣根を越えた統合と、企業間のパートナーシップを目指す"
+],
+[
+"目標市場分析は競合他社の戦略・能力を理解するための分析である",
+"それは競合分析。目標市場分析は市場セグメントごとの顧客分析"
+],
+[
+"TQC（総合的品質管理）を基盤とした手法はSCMと呼ばれる",
+"TQCを基盤とした管理手法はTQM"
+]
+],
+"summary": "業界分析の3ツール＝競合分析・価格弾力性分析・目標市場分析。SCM＝組織横断の統合でロジスティクスコスト削減と付加価値創造。"
+}
+];
+
+const grid = document.getElementById('grid');
+cards.forEach((c,i)=>{
+  const slot = document.createElement('div');
+  slot.className='card-slot';
+  slot.id='slot-'+i;
+  slot.innerHTML = `
+    <div class="card">
+      <div class="face front">
+        <div class="tag-row">
+          <div class="no-badge">${c.no}</div>
+          <div class="done-badge" id="badge-${i}">未学習</div>
+        </div>
+        <h2>${c.title}</h2>
+        <div class="q-label">QUESTION（正誤判定）</div>
+        <div class="question">${c.q}</div>
+        <div class="why">${c.why}</div>
+        <div class="rule-tag">RULE｜${c.rule}</div>
+        <div class="flip-hint">タップして解説へ ▸</div>
+      </div>
+      <div class="face back">
+        <div class="q-label">誤答 → 正解へ変換</div>
+        ${c.conv.map(p=>`<div class="conv"><span class="x">×</span> ${p[0]}<br><span class="o">○</span> ${p[1]}</div>`).join('')}
+        <div class="summary">${c.summary}</div>
+      </div>
+    </div>
+  `;
+  slot.addEventListener('click', ()=>{
+    slot.classList.toggle('flipped');
+    if(slot.classList.contains('flipped')){
+      document.getElementById('badge-'+i).textContent='済';
+      document.getElementById('badge-'+i).classList.add('on');
+      updateProgress();
+    }
+  });
+  grid.appendChild(slot);
+});
+
+function updateProgress(){
+  const done = document.querySelectorAll('.done-badge.on').length;
+  document.getElementById('pf').style.width = (done/cards.length*100)+'%';
+  document.getElementById('pc').textContent = done+' / '+cards.length;
+}
+</script>
+</body>
+</html>

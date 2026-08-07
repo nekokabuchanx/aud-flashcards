@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>USCPA・AUD論点まとめ CH17 フラッシュカード</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap');
+
+  :root{
+    --ink:#14213D;
+    --paper:#F6F4EE;
+    --paper2:#EFEBE1;
+    --gold:#B8862B;
+    --teal:#1F5F5B;
+    --warn:#9C3B2E;
+    --line:#D8D2C2;
+    --text:#232323;
+    --sub:#6B6558;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    font-family:'Noto Sans JP','メイリオ',sans-serif;
+    color:var(--text);
+    padding:28px 20px 60px;
+  }
+
+  .masthead{
+    max-width:980px;margin:0 auto 22px;
+    border-bottom:3px solid var(--ink);
+    padding-bottom:14px;
+    display:flex;justify-content:space-between;align-items:flex-end;
+    gap:16px;flex-wrap:wrap;
+  }
+  .masthead .brand{font-size:11px;letter-spacing:.14em;color:var(--sub);text-transform:uppercase;}
+  .masthead h1{
+    font-family:'Noto Serif JP';font-weight:900;
+    font-size:24px;color:var(--ink);margin:2px 0 0;letter-spacing:.02em;
+  }
+  .masthead .en{font-size:12px;color:var(--sub);font-style:italic;margin-top:2px;}
+  .progress-wrap{text-align:right;min-width:150px;}
+  .progress-label{font-size:11px;color:var(--sub);margin-bottom:4px;}
+  .progress-bar{width:150px;height:6px;background:var(--paper2);border:1px solid var(--line);}
+  .progress-fill{height:100%;background:var(--teal);width:0%;transition:width .35s;}
+  .progress-count{font-size:13px;color:var(--ink);font-weight:700;margin-top:4px;}
+
+  .flowmap{
+    max-width:980px;margin:0 auto 12px;
+    background:var(--ink);color:var(--paper);
+    padding:16px 20px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  }
+  .flowmap .step{
+    font-size:13px;font-weight:700;padding:5px 10px;border:1px solid rgba(246,244,238,.35);
+    white-space:nowrap;
+  }
+  .flowmap .arrow{color:var(--gold);font-weight:900;}
+  .flow-caption{max-width:980px;margin:0 auto 26px;font-size:11.5px;color:var(--sub);text-align:right;font-style:italic;}
+
+  .learning-map{max-width:980px;margin:0 auto 32px;overflow-x:auto;}
+  .learning-map table{width:100%;border-collapse:collapse;font-size:12.5px;}
+  .learning-map th{
+    background:var(--ink);color:var(--paper);text-align:left;padding:8px 10px;font-weight:700;
+  }
+  .learning-map td{padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
+  .learning-map tr:nth-child(even) td{background:var(--paper2);}
+  .learning-map .no{color:var(--gold);font-weight:900;width:28px;}
+  .learning-map .topic{font-weight:700;color:var(--ink);width:220px;}
+  .learning-map .rule{color:var(--teal);font-weight:700;white-space:nowrap;}
+
+  .grid{
+    max-width:980px;margin:0 auto;
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;
+  }
+  .card-slot{perspective:1600px;height:400px;}
+  .card{
+    position:relative;width:100%;height:100%;
+    transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,.2,.2,1);
+    cursor:pointer;
+  }
+  .card-slot.flipped .card{transform:rotateY(180deg);}
+  .face{
+    position:absolute;inset:0;backface-visibility:hidden;
+    border:1px solid var(--ink);display:flex;flex-direction:column;
+    padding:16px 16px 14px;overflow:hidden;
+  }
+  .front{background:var(--paper);}
+  .back{background:var(--ink);color:var(--paper);transform:rotateY(180deg);}
+
+  .tag-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+  .no-badge{font-family:'Noto Serif JP';font-weight:900;font-size:18px;color:var(--gold);}
+  .done-badge{font-size:10px;letter-spacing:.08em;color:var(--sub);border:1px solid var(--line);padding:2px 6px;}
+  .front .done-badge.on{background:var(--teal);color:#fff;border-color:var(--teal);}
+
+  .front h2{
+    font-family:'Noto Serif JP';font-size:14.5px;font-weight:700;color:var(--ink);
+    margin:0 0 8px;line-height:1.3;
+  }
+  .q-label{font-size:10px;letter-spacing:.1em;color:var(--gold);font-weight:700;margin-bottom:6px;}
+  .front .question{
+    font-size:13.5px;font-weight:700;color:var(--warn);line-height:1.5;margin-bottom:10px;
+    padding:8px 10px;background:var(--paper2);border-left:3px solid var(--warn);
+  }
+  .front .why{font-size:12px;color:var(--sub);line-height:1.6;margin-bottom:10px;}
+  .front .rule-tag{
+    margin-top:auto;font-size:11px;color:var(--teal);font-weight:700;
+    border-top:1px dashed var(--line);padding-top:8px;
+  }
+  .flip-hint{font-size:10px;color:var(--sub);text-align:right;margin-top:6px;}
+
+  .back .core{font-size:12px;line-height:1.65;margin-bottom:8px;}
+  .back .conv{
+    font-size:11.5px;line-height:1.55;margin-bottom:7px;padding-bottom:7px;
+    border-bottom:1px solid rgba(246,244,238,.15);
+  }
+  .back .conv:last-of-type{border-bottom:none;}
+  .back .conv .x{color:#E0A79A;}
+  .back .conv .o{color:#9FD8B5;}
+  .back .summary{
+    font-size:11.5px;font-weight:700;line-height:1.5;color:#fff;
+    background:rgba(255,255,255,.08);padding:7px 9px;margin-top:auto;border-left:3px solid var(--gold);
+  }
+
+  footer{max-width:980px;margin:36px auto 0;font-size:11px;color:var(--sub);text-align:center;}
+</style>
+</head>
+<body>
+
+  <div class="masthead">
+    <div>
+      <div class="brand">シン・AUD論点厳選</div>
+      <h1>CH17 Audits with Information Technology</h1>
+      <div class="en">Decision Framework — 問題を見た瞬間に「どのルールで判断するか」を決める</div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label">習得進捗</div>
+      <div class="progress-bar"><div class="progress-fill" id="pf"></div></div>
+      <div class="progress-count" id="pc">0 / 9</div>
+    </div>
+  </div>
+
+  <div class="flowmap">
+    <div class="step">全般統制とアプリ統制を区分</div>
+    <div class="arrow">→</div>
+    <div class="step">アクセス・入出力統制を確認</div>
+    <div class="arrow">→</div>
+    <div class="step">CAATsで処理を検証</div>
+    <div class="arrow">→</div>
+    <div class="step">継続的監査の手法を判断</div>
+  </div>
+  <div class="flow-caption">IT監査は全般統制とアプリケーション統制の区分から始まり、アクセス・入出力の統制を確認した上で、CAATsによる処理そのものの検証、継続的監査の手法選択へと進む。</div>
+
+  <div class="learning-map">
+    <table>
+      <tr><th class="no">No.</th><th class="topic">論点</th><th>判定ルール（暗記フック）</th></tr>
+      <tr><td class="no">01</td><td class="topic">IT統制の全体像と監査証跡</td><td class="rule">全般統制=システム全体、アプリ統制=個別取引</td></tr>
+      <tr><td class="no">02</td><td class="topic">IT統制の利点とリスク</td><td class="rule">計算ミスは減るがsystematic errorの影響は広範囲</td></tr>
+      <tr><td class="no">03</td><td class="topic">全般統制(1) 変更統制・BCP</td><td class="rule">定期的バックアップ＋別場所保管が財務記録の再構築の鍵</td></tr>
+      <tr><td class="no">04</td><td class="topic">全般統制(2) アクセスセキュリティ</td><td class="rule">物理的統制は観察+記録検証、論理的統制は識別→認証→承認</td></tr>
+      <tr><td class="no">05</td><td class="topic">アプリ統制(1) 入力統制</td><td class="rule">入力統制は不適切な入力を事前に防ぐ予防統制</td></tr>
+      <tr><td class="no">06</td><td class="topic">アプリ統制(2) 処理・出力統制</td><td class="rule">処理・出力統制は事後的に発見する発見統制</td></tr>
+      <tr><td class="no">07</td><td class="topic">CAATsの全体像とGAS</td><td class="rule">証拠が電子形態のみならGASでデータ抽出が最善</td></tr>
+      <tr><td class="no">08</td><td class="topic">CAATs4技法</td><td class="rule">使用データ×使用プログラムの2軸で技法を識別</td></tr>
+      <tr><td class="no">09</td><td class="topic">内蔵型監査モジュール(EAM)</td><td class="rule">取引処理と同時にデータ捕捉、開発段階で組込みが必要</td></tr>
+    </table>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <footer>クリック / タップでカードが反転します。裏面を見た論点は自動でチェックが付きます。 © 2026 @nekokabuchanx</footer>
+
+<script>
+const cards = [
+{
+"no": "01",
+"title": "IT統制の全体像と監査証跡",
+"rule": "全般統制=システム全体、アプリ統制=個別取引",
+"q": "IT化が進むと、監査証跡（Audit Trail）は消滅する。",
+"why": "IT化しても監査証跡は消滅せず、紙媒体からデータへ形態が変わるだけ。",
+"conv": [
+[
+"IT化が進むと監査証跡は消滅する",
+"消滅せず、紙媒体からデータへ形態が変わるだけ"
+],
+[
+"分析的手続の実施が監査証跡を保持する主目的である",
+"監査証跡保持の主目的は不正の抑止・監視・質問応答"
+],
+[
+"データセンターの運用はアプリケーション統制に分類される",
+"全般統制に分類される"
+]
+],
+"summary": "全般統制＝データセンター運用・プログラム変更・アクセスセキュリティ等。アプリケーション統制＝入力・処理・出力統制。"
+},
+{
+"no": "02",
+"title": "IT統制の利点とリスク",
+"rule": "計算ミスは減るがsystematic errorの影響は広範囲",
+"q": "IT化すれば、給与関連の不正の可能性は減少する。",
+"why": "IT化により給与関連の不正が減少するというのは誤り。データは上書きで容易に改ざんできる。",
+"conv": [
+[
+"IT化すれば給与関連の不正の可能性は減少する",
+"そのような効果はなく、コンピュータファイルの方が改ざんが容易な面もある"
+],
+[
+"IT化により誤謬・不正は直ちに発見される",
+"直ちに発見されるわけではない"
+],
+[
+"IT化はsystematic errorの発生も減らす",
+"計算ミス(random error)は減るが、systematic errorの影響はより広範囲に及ぶ"
+]
+],
+"summary": "利点＝一貫した処理・適時性強化・監視能力強化。リスク＝不正確なシステムへの依拠・無権限アクセス・システムの陳腐化。"
+},
+{
+"no": "03",
+"title": "全般統制(1) 変更統制・BCP",
+"rule": "定期的バックアップ＋別場所保管が財務記録の再構築の鍵",
+"q": "コールド・サイトは、適合性のあるコンピュータ機器が備わっており数時間以内に業務を再開できる施設である。",
+"why": "数時間以内に業務再開できるのはホット・サイト。コールド・サイトは設置場所のみ確保。",
+"conv": [
+[
+"コールド・サイトは数時間以内に業務再開できる施設である",
+"それはホット・サイト。コールド・サイトは設置場所のみ確保"
+],
+[
+"変更統制は承認→テスト→文書化の順で進む",
+"承認→文書化→テスト→承認の順で進む"
+],
+[
+"バックアップは元データと同じ場所に保管すればよい",
+"元データとは別の場所での保管が財務記録の再構築可能性を左右する"
+]
+],
+"summary": "変更統制＝承認→文書化→テスト→承認。バックアップは別場所保管が鍵。ホット・サイト＝即時復旧可、コールド・サイト＝場所のみ。"
+},
+{
+"no": "04",
+"title": "全般統制(2) アクセスセキュリティ",
+"rule": "物理的統制は観察+記録検証、論理的統制は識別→認証→承認",
+"q": "技術を持つ者によるプログラム改ざんを予防する最も有効な統制は、ジョブ完了レポートのレビューである。",
+"why": "ジョブ完了レポートのレビューは発見のための統制。予防に最も有効なのは職務の分離。",
+"conv": [
+[
+"プログラム改ざんの予防に最も有効なのはジョブ完了レポートのレビュー",
+"予防に最も有効なのは職務の分離"
+],
+[
+"物理的統制の有効性はマニュアルの閲覧だけで確かめられる",
+"観察（observation）＋出入記録の検証（inspection）で確かめる"
+],
+[
+"暗号化は入力の誤りを防ぐための入力統制である",
+"暗号化は伝送中のデータの無権限アクセス・改ざんを防ぐもの"
+]
+],
+"summary": "物理的統制＝観察＋出入記録検証。論理的統制＝識別→認証→承認。改ざんの予防＝職務の分離が最有効。"
+},
+{
+"no": "05",
+"title": "アプリ統制(1) 入力統制",
+"rule": "入力統制は不適切な入力を事前に防ぐ予防統制",
+"q": "チェック・ディジットは、ハッシュ・トータルよりも誤りの発見において劣る統制である。",
+"why": "チェック・ディジットは誤りの箇所まで特定できるため、ハッシュ・トータルより有効。",
+"conv": [
+[
+"チェック・ディジットはハッシュ・トータルより劣る統制である",
+"誤りの箇所まで特定できるため、より有効な統制"
+],
+[
+"限界チェックと妥当性チェックは入力時にしか使えない",
+"入力後のデータ処理で異常値を発見する処理統制としても利用できる"
+],
+[
+"パリティ・チェックはデータの特徴（意味内容）の判定に使える",
+"二進数データの検査用で、データの特徴の判定には使えない"
+]
+],
+"summary": "入力統制(Edit Check)＝予防統制。限界/妥当性/合理性/完全性/連番チェック、チェック・ディジット等で不適切入力を事前に防ぐ。"
+},
+{
+"no": "06",
+"title": "アプリ統制(2) 処理・出力統制",
+"rule": "処理・出力統制は事後的に発見する発見統制",
+"q": "レコード・カウントは、処理されたデータの金額合計を数える統制である。",
+"why": "レコード・カウントはファイル中のレコード数（処理件数）を数える統制で、金額や数量の合計ではない。",
+"conv": [
+[
+"レコード・カウントは金額合計を数える統制である",
+"レコード数（処理件数）を数える統制で、金額合計とは異なる"
+],
+[
+"ハッシュ・トータルは意味のある金額データの合計を照合する",
+"通常は計算に用いない数値（請求書番号等）の合計値を照合する"
+],
+[
+"出力統制は入力時の誤りのみを対象とする",
+"データが意図通り処理されたかの確認と、無権限者による複製・配布の防止も含む"
+]
+],
+"summary": "コントロール・トータル/ハッシュ・トータル/レコード・カウント/例外レポート/出力統制で、入力後の不正確なデータを事後発見する。"
+},
+{
+"no": "07",
+"title": "CAATsの全体像とGAS",
+"rule": "証拠が電子形態のみならGASでデータ抽出が最善",
+"q": "汎用監査ソフトウェア（GAS）を使用するには、コンピュータについて高度な専門知識が必要である。",
+"why": "GASはコンピュータの高度な知識がなくても使用でき、監査人の独立性が保たれる。",
+"conv": [
+[
+"GASの使用には高度なコンピュータ専門知識が必要",
+"高度な知識がなくても使用でき、独立性も保たれる"
+],
+[
+"auditing \"around\" the computerはコンピュータの処理過程を直接テストする",
+"入出力の検証に焦点をあて、処理過程は考慮しない"
+],
+[
+"GASはランダムベースの検査しかできない",
+"調査対象トランザクションの100%を精査することも可能"
+]
+],
+"summary": "GAS＝依頼人のコンピュータからデータを抽出できるソフト。読取専用抽出・条件抽出・演算・統計機能で、高度な知識不要かつ独立性を保てる。"
+},
+{
+"no": "08",
+"title": "CAATs4技法",
+"rule": "使用データ×使用プログラムの2軸で技法を識別",
+"q": "テスト・データ法（test data）では、有効・無効の全ての条件を網羅したダミーデータを用意する必要がある。",
+"why": "全ての条件を含める必要はなく、監査人が関心を持つ条件のみ各タイプ1件でよい。",
+"conv": [
+[
+"テスト・データ法は有効・無効の全条件を網羅する必要がある",
+"関心を持つ条件のみ各タイプ1件でよい（不可能・非効率なため）"
+],
+[
+"ITF法は依頼人に気づかれてから実施する",
+"従業員に気づかれずに検証でき、統制を継続的に監視できる"
+],
+[
+"並行シミュレーション法は依頼人のプログラムを使用する",
+"監査人が自らプログラムを作成し、依頼人の出力と比較する"
+]
+],
+"summary": "Test data＝依頼人プログラム×ダミー。ITF＝依頼人プログラム×実データ+ダミー。並行シミュレーション＝監査人プログラム×実データ。"
+},
+{
+"no": "09",
+"title": "内蔵型監査モジュール(EAM)",
+"rule": "取引処理と同時にデータ捕捉、開発段階で組込みが必要",
+"q": "EAM（内蔵型監査モジュール）は、システムの運用開始後にいつでも組み込むことができる。",
+"why": "EAMはシステムのプログラム開発段階で組み込む必要がある。",
+"conv": [
+[
+"EAMは運用開始後にいつでも組み込める",
+"システムのプログラム開発段階で組み込む必要がある"
+],
+[
+"SCARFは無作為に抽出して記録するようプログラム化される",
+"監査人の規準によって決められた取引を記録する（無作為抽出はSARF）"
+],
+[
+"スナップショットは監査証跡を必要とする場合には不向きである",
+"プログラム・ロジックの検証が可能で、監査証跡を必要とする場合に最も有益"
+]
+],
+"summary": "EAM＝取引処理と同時にデータを捕捉し継続的監視。監査フック・SCARF・SARF・スナップショットの4手法。開発段階での組込みが必要。"
+}
+];
+
+const grid = document.getElementById('grid');
+cards.forEach((c,i)=>{
+  const slot = document.createElement('div');
+  slot.className='card-slot';
+  slot.id='slot-'+i;
+  slot.innerHTML = `
+    <div class="card">
+      <div class="face front">
+        <div class="tag-row">
+          <div class="no-badge">${c.no}</div>
+          <div class="done-badge" id="badge-${i}">未学習</div>
+        </div>
+        <h2>${c.title}</h2>
+        <div class="q-label">QUESTION（正誤判定）</div>
+        <div class="question">${c.q}</div>
+        <div class="why">${c.why}</div>
+        <div class="rule-tag">RULE｜${c.rule}</div>
+        <div class="flip-hint">タップして解説へ ▸</div>
+      </div>
+      <div class="face back">
+        <div class="q-label">誤答 → 正解へ変換</div>
+        ${c.conv.map(p=>`<div class="conv"><span class="x">×</span> ${p[0]}<br><span class="o">○</span> ${p[1]}</div>`).join('')}
+        <div class="summary">${c.summary}</div>
+      </div>
+    </div>
+  `;
+  slot.addEventListener('click', ()=>{
+    slot.classList.toggle('flipped');
+    if(slot.classList.contains('flipped')){
+      document.getElementById('badge-'+i).textContent='済';
+      document.getElementById('badge-'+i).classList.add('on');
+      updateProgress();
+    }
+  });
+  grid.appendChild(slot);
+});
+
+function updateProgress(){
+  const done = document.querySelectorAll('.done-badge.on').length;
+  document.getElementById('pf').style.width = (done/cards.length*100)+'%';
+  document.getElementById('pc').textContent = done+' / '+cards.length;
+}
+</script>
+</body>
+</html>

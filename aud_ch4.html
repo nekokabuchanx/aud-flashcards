@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>USCPA・AUD論点まとめ CH4 フラッシュカード</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap');
+
+  :root{
+    --ink:#14213D;
+    --paper:#F6F4EE;
+    --paper2:#EFEBE1;
+    --gold:#B8862B;
+    --teal:#1F5F5B;
+    --warn:#9C3B2E;
+    --line:#D8D2C2;
+    --text:#232323;
+    --sub:#6B6558;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    font-family:'Noto Sans JP','メイリオ',sans-serif;
+    color:var(--text);
+    padding:28px 20px 60px;
+  }
+
+  .masthead{
+    max-width:980px;margin:0 auto 22px;
+    border-bottom:3px solid var(--ink);
+    padding-bottom:14px;
+    display:flex;justify-content:space-between;align-items:flex-end;
+    gap:16px;flex-wrap:wrap;
+  }
+  .masthead .brand{font-size:11px;letter-spacing:.14em;color:var(--sub);text-transform:uppercase;}
+  .masthead h1{
+    font-family:'Noto Serif JP';font-weight:900;
+    font-size:24px;color:var(--ink);margin:2px 0 0;letter-spacing:.02em;
+  }
+  .masthead .en{font-size:12px;color:var(--sub);font-style:italic;margin-top:2px;}
+  .progress-wrap{text-align:right;min-width:150px;}
+  .progress-label{font-size:11px;color:var(--sub);margin-bottom:4px;}
+  .progress-bar{width:150px;height:6px;background:var(--paper2);border:1px solid var(--line);}
+  .progress-fill{height:100%;background:var(--teal);width:0%;transition:width .35s;}
+  .progress-count{font-size:13px;color:var(--ink);font-weight:700;margin-top:4px;}
+
+  .flowmap{
+    max-width:980px;margin:0 auto 12px;
+    background:var(--ink);color:var(--paper);
+    padding:16px 20px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  }
+  .flowmap .step{
+    font-size:13px;font-weight:700;padding:5px 10px;border:1px solid rgba(246,244,238,.35);
+    white-space:nowrap;
+  }
+  .flowmap .arrow{color:var(--gold);font-weight:900;}
+  .flow-caption{max-width:980px;margin:0 auto 26px;font-size:11.5px;color:var(--sub);text-align:right;font-style:italic;}
+
+  .learning-map{max-width:980px;margin:0 auto 32px;overflow-x:auto;}
+  .learning-map table{width:100%;border-collapse:collapse;font-size:12.5px;}
+  .learning-map th{
+    background:var(--ink);color:var(--paper);text-align:left;padding:8px 10px;font-weight:700;
+  }
+  .learning-map td{padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
+  .learning-map tr:nth-child(even) td{background:var(--paper2);}
+  .learning-map .no{color:var(--gold);font-weight:900;width:28px;}
+  .learning-map .topic{font-weight:700;color:var(--ink);width:220px;}
+  .learning-map .rule{color:var(--teal);font-weight:700;white-space:nowrap;}
+
+  .grid{
+    max-width:980px;margin:0 auto;
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;
+  }
+  .card-slot{perspective:1600px;height:400px;}
+  .card{
+    position:relative;width:100%;height:100%;
+    transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,.2,.2,1);
+    cursor:pointer;
+  }
+  .card-slot.flipped .card{transform:rotateY(180deg);}
+  .face{
+    position:absolute;inset:0;backface-visibility:hidden;
+    border:1px solid var(--ink);display:flex;flex-direction:column;
+    padding:16px 16px 14px;overflow:hidden;
+  }
+  .front{background:var(--paper);}
+  .back{background:var(--ink);color:var(--paper);transform:rotateY(180deg);}
+
+  .tag-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+  .no-badge{font-family:'Noto Serif JP';font-weight:900;font-size:18px;color:var(--gold);}
+  .done-badge{font-size:10px;letter-spacing:.08em;color:var(--sub);border:1px solid var(--line);padding:2px 6px;}
+  .front .done-badge.on{background:var(--teal);color:#fff;border-color:var(--teal);}
+
+  .front h2{
+    font-family:'Noto Serif JP';font-size:14.5px;font-weight:700;color:var(--ink);
+    margin:0 0 8px;line-height:1.3;
+  }
+  .q-label{font-size:10px;letter-spacing:.1em;color:var(--gold);font-weight:700;margin-bottom:6px;}
+  .front .question{
+    font-size:13.5px;font-weight:700;color:var(--warn);line-height:1.5;margin-bottom:10px;
+    padding:8px 10px;background:var(--paper2);border-left:3px solid var(--warn);
+  }
+  .front .why{font-size:12px;color:var(--sub);line-height:1.6;margin-bottom:10px;}
+  .front .rule-tag{
+    margin-top:auto;font-size:11px;color:var(--teal);font-weight:700;
+    border-top:1px dashed var(--line);padding-top:8px;
+  }
+  .flip-hint{font-size:10px;color:var(--sub);text-align:right;margin-top:6px;}
+
+  .back .core{font-size:12px;line-height:1.65;margin-bottom:8px;}
+  .back .conv{
+    font-size:11.5px;line-height:1.55;margin-bottom:7px;padding-bottom:7px;
+    border-bottom:1px solid rgba(246,244,238,.15);
+  }
+  .back .conv:last-of-type{border-bottom:none;}
+  .back .conv .x{color:#E0A79A;}
+  .back .conv .o{color:#9FD8B5;}
+  .back .summary{
+    font-size:11.5px;font-weight:700;line-height:1.5;color:#fff;
+    background:rgba(255,255,255,.08);padding:7px 9px;margin-top:auto;border-left:3px solid var(--gold);
+  }
+
+  footer{max-width:980px;margin:36px auto 0;font-size:11px;color:var(--sub);text-align:center;}
+</style>
+</head>
+<body>
+
+  <div class="masthead">
+    <div>
+      <div class="brand">シン・AUD論点厳選</div>
+      <h1>CH4 Audit Reporting: Part II</h1>
+      <div class="en">Decision Framework — 問題を見た瞬間に「どのルールで判断するか」を決める</div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label">習得進捗</div>
+      <div class="progress-bar"><div class="progress-fill" id="pf"></div></div>
+      <div class="progress-count" id="pc">0 / 9</div>
+    </div>
+  </div>
+
+  <div class="flowmap">
+    <div class="step">意見区分の構成を確認</div>
+    <div class="arrow">→</div>
+    <div class="step">原因×広がりで意見を判定</div>
+    <div class="arrow">→</div>
+    <div class="step">グループ監査の扱いを判定</div>
+    <div class="arrow">→</div>
+    <div class="step">特殊な報告形式を選ぶ</div>
+  </div>
+  <div class="flow-caption">意見の種類ごとの記載パターンを起点に、Modified Opinionの判定、グループ監査での構成要素の扱い、特殊な財務諸表の報告形式までを一本の論理で判断する。</div>
+
+  <div class="learning-map">
+    <table>
+      <tr><th class="no">No.</th><th class="topic">論点</th><th>判定ルール（暗記フック）</th></tr>
+      <tr><td class="no">01</td><td class="topic">意見区分の構成</td><td class="rule">意見の種類で記載区分が決まったパターンで増減</td></tr>
+      <tr><td class="no">02</td><td class="topic">Modified Opinion判定</td><td class="rule">原因(GAAP逸脱/範囲制限)×影響の広がりで意見が決まる</td></tr>
+      <tr><td class="no">03</td><td class="topic">非監査FSの意見差控え</td><td class="rule">監査していない以上、限定・不適正意見はあり得ない</td></tr>
+      <tr><td class="no">04</td><td class="topic">グループ監査：構成要素の重要性</td><td class="rule">構成要素の重要性はグループ全体より必ず低い</td></tr>
+      <tr><td class="no">05</td><td class="topic">構成要素の監査人に言及する場合</td><td class="rule">言及する場合は『誰が』『どの程度』の2点を明記</td></tr>
+      <tr><td class="no">06</td><td class="topic">言及しない場合／独立性欠如</td><td class="rule">言及しない=責任を全て負う、独立性欠如=自ら証拠入手</td></tr>
+      <tr><td class="no">07</td><td class="topic">ピースミールオピニオン禁止</td><td class="rule">特定項目の単独監査は可、全体の一部だけ適正は禁止</td></tr>
+      <tr><td class="no">08</td><td class="topic">要約FS・他国使用FS</td><td class="rule">要約FSは整合性を意見表明、他国使用は米国式無修正不可</td></tr>
+      <tr><td class="no">09</td><td class="topic">特別目的フレームワーク</td><td class="rule">GAAP以外の基準である旨を明記、現金主義は追記区分追加</td></tr>
+    </table>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <footer>クリック / タップでカードが反転します。裏面を見た論点は自動でチェックが付きます。 © 2026 @nekokabuchanx</footer>
+
+<script>
+const cards = [
+{
+"no": "01",
+"title": "意見区分の構成",
+"rule": "意見の種類で記載区分が決まったパターンで増減",
+"q": "Disclaimer of Opinionでも、監査人の責任（監査実施の記載）区分は通常どおり記載される。",
+"why": "Disclaimerでは意見を表明しないため、監査実施を述べる『監査人の責任』区分そのものを記載しない。",
+"conv": [
+[
+"Disclaimerでも監査人の責任区分を通常どおり記載する",
+"Disclaimerでは監査人の責任（監査実施の記載）区分は記載しない"
+],
+[
+"CAM（監査上の主要な検討事項）はAdverse・Disclaimerでも記載する",
+"CAMはUnqualified・Qualifiedのみで記載する"
+],
+[
+"意見の根拠（修正理由）はUnqualifiedにも記載する",
+"修正理由の記載はQualified以降のみで、Unqualifiedにはない"
+]
+],
+"summary": "意見の種類が変わると、意見の根拠・CAM・監査人の責任などの記載区分がパターン通りに増減する。"
+},
+{
+"no": "02",
+"title": "Modified Opinion判定",
+"rule": "原因(GAAP逸脱/範囲制限)×影響の広がりで意見が決まる",
+"q": "継続企業の前提に関する重大な疑義が存在する場合、それだけで限定意見の要因になる。",
+"why": "重大な疑義は単独では限定・不適正意見の要因にならず、開示が十分なら追記情報区分付きの無修正意見となる。",
+"conv": [
+[
+"継続企業の重大な疑義は単独で限定意見の要因になる",
+"開示が十分なら追記情報区分付きの無修正意見にとどまる"
+],
+[
+"Unmodified opinionにも監査範囲の制限を記載できる",
+"Unmodified opinionには監査範囲の制限に関する記載はできない"
+],
+[
+"限定業務(limited reporting engagement)は監査範囲の制限に当たる",
+"限定業務は監査範囲の制限には当たらない"
+]
+],
+"summary": "GAAP逸脱×pervasive→Adverse／範囲制限×pervasive→Disclaimer／pervasiveでなければ両方ともQualified。"
+},
+{
+"no": "03",
+"title": "非監査FSの意見差控え",
+"rule": "監査していない以上、限定・不適正意見はあり得ない",
+"q": "非監査FSにCPAが関与し、GAAP違反に気づき経営者が修正を拒否した場合、監査人はQualified opinionを表明する。",
+"why": "監査を行っていないため、限定意見や不適正意見の表明はあり得ず、報告書にGAAP逸脱の性質と影響を記載するにとどまる。",
+"conv": [
+[
+"修正拒否時、監査人はQualified opinionを表明する",
+"監査をしていないため限定意見は表明できず、GAAP逸脱の性質と影響を報告書に記載する"
+],
+[
+"非監査FSへの関与では、意見差控えの報告書は不要",
+"監査を行っていない旨を明記した報告書（意見差控え）を発行する"
+],
+[
+"GAAP違反に気づいても、CPAには修正を要求する義務はない",
+"気づいた場合は経営者に修正を要求する"
+]
+],
+"summary": "Step1意見差控えを明記→Step2 GAAP違反があれば修正要求→Step3拒否ならGAAP逸脱の性質・影響を記載。"
+},
+{
+"no": "04",
+"title": "グループ監査：構成要素の重要性",
+"rule": "構成要素の重要性はグループ全体より必ず低い",
+"q": "構成要素の重要性は、各構成要素の監査人がそれぞれ設定する。",
+"why": "構成要素の重要性を決定するのはグループ監査チームであり、構成要素の監査人ではない。",
+"conv": [
+[
+"構成要素の重要性は各構成要素の監査人が設定する",
+"構成要素の重要性を決定するのはグループ監査チーム"
+],
+[
+"構成要素の重要性は親会社の持分比率で機械的に算出する",
+"計算式によって機械的に算出するルールは存在しない"
+],
+[
+"構成要素の重要性はグループ全体の重要性と同じ値でよい",
+"構成要素の重要性は必ずグループ全体より低い値に設定する"
+]
+],
+"summary": "グループ財務諸表の重要性＞構成要素の重要性（必ず低い値）。設定主体はグループ監査チーム。"
+},
+{
+"no": "05",
+"title": "構成要素の監査人に言及する場合",
+"rule": "言及する場合は『誰が』『どの程度』の2点を明記",
+"q": "構成要素の監査人に言及する場合、その事実は監査人の責任区分に記載する。",
+"why": "『誰が』『どの程度』監査したかは、意見(Opinion)区分にセットで記載する。",
+"conv": [
+[
+"言及する事実は監査人の責任区分に記載する",
+"意見(Opinion)区分に必ずセットで記載する"
+],
+[
+"言及する場合は『どの程度』の規模だけ記載すればよい",
+"『誰が』監査した旨と『どの程度』の両方を記載する"
+],
+[
+"構成要素監査人への言及は独立性の証明として機能する",
+"言及は責任分担の明示であり、独立性とは別の論点"
+]
+],
+"summary": "構成要素の監査人がグループ監査人ではなく監査した旨＋監査された部分の重要性の程度、を意見区分に記載。"
+},
+{
+"no": "06",
+"title": "言及しない場合／独立性欠如",
+"rule": "言及しない=責任を全て負う、独立性欠如=自ら証拠入手",
+"q": "構成要素の監査人が独立性の要件を満たしていない場合、グループ監査チームはグループ監査契約から辞退しなければならない。",
+"why": "いずれのケースも、グループ監査契約からの辞退までは要求されない。",
+"conv": [
+[
+"独立性を欠く場合、グループ監査契約から辞退しなければならない",
+"辞退は要求されず、当該監査人の作業を利用せず自ら証拠を入手する"
+],
+[
+"構成要素の監査人に言及しないと決定したら、追加手続は不要",
+"重要性の程度に応じ追加の監査手続（調書レビュー等）を実施する"
+],
+[
+"独立性欠如の事実は監査報告書に記載する",
+"その事実を監査報告書に記載しない"
+]
+],
+"summary": "言及しない→責任を全て負い追加手続／独立性欠如→事実を記載せず自ら証拠を入手（いずれも辞退不要）。"
+},
+{
+"no": "07",
+"title": "ピースミールオピニオン禁止",
+"rule": "特定項目の単独監査は可、全体の一部だけ適正は禁止",
+"q": "監査報告書全体が不適正意見であっても、流動資産のみ『適正に表示』と別に述べることができる。",
+"why": "報告書全体の趣旨を不明瞭にするため、ピースミールオピニオンは禁止される。",
+"conv": [
+[
+"不適正意見の中で、特定項目のみ適正と述べることができる",
+"報告書全体の趣旨を不明瞭にするため禁止される（ピースミールオピニオン）"
+],
+[
+"FSの特定の勘定・項目について、単独で監査契約はできない",
+"売掛金明細表等、特定項目について単独で監査契約・報告できる"
+],
+[
+"特定項目の単独報告は、監査済FSと無関係な情報として作成できる",
+"報告は監査済FSから派生した情報に限定される"
+]
+],
+"summary": "特定項目の単独監査は可能。ただし全体に差控え・不適正を出した報告書内で一部だけ適正と述べるのは禁止。"
+},
+{
+"no": "08",
+"title": "要約FS・他国使用FS",
+"rule": "要約FSは整合性を意見表明、他国使用は米国式無修正不可",
+"q": "親会社の国でのみ使用されるFSについて、米国式の無修正報告書をそのまま発行できる。",
+"why": "他国でのみ使用されるFSには、米国式（無修正）の報告書は許容されない。",
+"conv": [
+[
+"他国のみで使用されるFSに米国式の無修正報告書をそのまま使う",
+"米国式（無修正）の報告書は許容されない（修正版米国式か他国様式）"
+],
+[
+"要約財務諸表は完全なFSとは無関係に独自の適正表示を意見表明する",
+"完全な監査済FSとの関連において適正に表示されているかを意見表明する"
+],
+[
+"要約FSの報告には配布制限の記載が必須である",
+"配布制限や追加手続の記載は不要"
+]
+],
+"summary": "要約FS→完全なFSとの整合性を意見表明。他国使用FS→修正版米国式または他国様式のいずれか（米国式無修正は不可）。"
+},
+{
+"no": "09",
+"title": "特別目的フレームワーク",
+"rule": "GAAP以外の基準である旨を明記、現金主義は追記区分追加",
+"q": "現金主義（cash basis）で作成されたFSの監査報告書には、損益計算書・貸借対照表というGAAPのタイトルをそのまま使用する。",
+"why": "現金主義FSでは『収支計算書』等の名称を使い、GAAPで使うタイトルは使用しない。",
+"conv": [
+[
+"現金主義FSにも損益計算書・貸借対照表というGAAPのタイトルを使う",
+"『収支計算書』等の名称を使い、GAAPのタイトルは使用しない"
+],
+[
+"特別目的フレームワークのFSには意見差控えが必要",
+"意見差控えは行わず、通常どおり意見表明する（GAAP以外の基準で作成である旨を明記）"
+],
+[
+"現金主義の追記情報区分は意見の根拠区分の前に置く",
+"意見の根拠区分の後に追記情報区分を追加する"
+]
+],
+"summary": "特別目的フレームワークは通常どおり意見表明＋GAAP以外である旨を明記。現金主義はさらに追記情報区分を追加。"
+}
+];
+
+const grid = document.getElementById('grid');
+cards.forEach((c,i)=>{
+  const slot = document.createElement('div');
+  slot.className='card-slot';
+  slot.id='slot-'+i;
+  slot.innerHTML = `
+    <div class="card">
+      <div class="face front">
+        <div class="tag-row">
+          <div class="no-badge">${c.no}</div>
+          <div class="done-badge" id="badge-${i}">未学習</div>
+        </div>
+        <h2>${c.title}</h2>
+        <div class="q-label">QUESTION（正誤判定）</div>
+        <div class="question">${c.q}</div>
+        <div class="why">${c.why}</div>
+        <div class="rule-tag">RULE｜${c.rule}</div>
+        <div class="flip-hint">タップして解説へ ▸</div>
+      </div>
+      <div class="face back">
+        <div class="q-label">誤答 → 正解へ変換</div>
+        ${c.conv.map(p=>`<div class="conv"><span class="x">×</span> ${p[0]}<br><span class="o">○</span> ${p[1]}</div>`).join('')}
+        <div class="summary">${c.summary}</div>
+      </div>
+    </div>
+  `;
+  slot.addEventListener('click', ()=>{
+    slot.classList.toggle('flipped');
+    if(slot.classList.contains('flipped')){
+      document.getElementById('badge-'+i).textContent='済';
+      document.getElementById('badge-'+i).classList.add('on');
+      updateProgress();
+    }
+  });
+  grid.appendChild(slot);
+});
+
+function updateProgress(){
+  const done = document.querySelectorAll('.done-badge.on').length;
+  document.getElementById('pf').style.width = (done/cards.length*100)+'%';
+  document.getElementById('pc').textContent = done+' / '+cards.length;
+}
+</script>
+</body>
+</html>

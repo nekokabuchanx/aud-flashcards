@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>USCPA・AUD論点まとめ CH10 フラッシュカード</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap');
+
+  :root{
+    --ink:#14213D;
+    --paper:#F6F4EE;
+    --paper2:#EFEBE1;
+    --gold:#B8862B;
+    --teal:#1F5F5B;
+    --warn:#9C3B2E;
+    --line:#D8D2C2;
+    --text:#232323;
+    --sub:#6B6558;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    font-family:'Noto Sans JP','メイリオ',sans-serif;
+    color:var(--text);
+    padding:28px 20px 60px;
+  }
+
+  .masthead{
+    max-width:980px;margin:0 auto 22px;
+    border-bottom:3px solid var(--ink);
+    padding-bottom:14px;
+    display:flex;justify-content:space-between;align-items:flex-end;
+    gap:16px;flex-wrap:wrap;
+  }
+  .masthead .brand{font-size:11px;letter-spacing:.14em;color:var(--sub);text-transform:uppercase;}
+  .masthead h1{
+    font-family:'Noto Serif JP';font-weight:900;
+    font-size:24px;color:var(--ink);margin:2px 0 0;letter-spacing:.02em;
+  }
+  .masthead .en{font-size:12px;color:var(--sub);font-style:italic;margin-top:2px;}
+  .progress-wrap{text-align:right;min-width:150px;}
+  .progress-label{font-size:11px;color:var(--sub);margin-bottom:4px;}
+  .progress-bar{width:150px;height:6px;background:var(--paper2);border:1px solid var(--line);}
+  .progress-fill{height:100%;background:var(--teal);width:0%;transition:width .35s;}
+  .progress-count{font-size:13px;color:var(--ink);font-weight:700;margin-top:4px;}
+
+  .flowmap{
+    max-width:980px;margin:0 auto 12px;
+    background:var(--ink);color:var(--paper);
+    padding:16px 20px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  }
+  .flowmap .step{
+    font-size:13px;font-weight:700;padding:5px 10px;border:1px solid rgba(246,244,238,.35);
+    white-space:nowrap;
+  }
+  .flowmap .arrow{color:var(--gold);font-weight:900;}
+  .flow-caption{max-width:980px;margin:0 auto 26px;font-size:11.5px;color:var(--sub);text-align:right;font-style:italic;}
+
+  .learning-map{max-width:980px;margin:0 auto 32px;overflow-x:auto;}
+  .learning-map table{width:100%;border-collapse:collapse;font-size:12.5px;}
+  .learning-map th{
+    background:var(--ink);color:var(--paper);text-align:left;padding:8px 10px;font-weight:700;
+  }
+  .learning-map td{padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
+  .learning-map tr:nth-child(even) td{background:var(--paper2);}
+  .learning-map .no{color:var(--gold);font-weight:900;width:28px;}
+  .learning-map .topic{font-weight:700;color:var(--ink);width:220px;}
+  .learning-map .rule{color:var(--teal);font-weight:700;white-space:nowrap;}
+
+  .grid{
+    max-width:980px;margin:0 auto;
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;
+  }
+  .card-slot{perspective:1600px;height:400px;}
+  .card{
+    position:relative;width:100%;height:100%;
+    transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,.2,.2,1);
+    cursor:pointer;
+  }
+  .card-slot.flipped .card{transform:rotateY(180deg);}
+  .face{
+    position:absolute;inset:0;backface-visibility:hidden;
+    border:1px solid var(--ink);display:flex;flex-direction:column;
+    padding:16px 16px 14px;overflow:hidden;
+  }
+  .front{background:var(--paper);}
+  .back{background:var(--ink);color:var(--paper);transform:rotateY(180deg);}
+
+  .tag-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+  .no-badge{font-family:'Noto Serif JP';font-weight:900;font-size:18px;color:var(--gold);}
+  .done-badge{font-size:10px;letter-spacing:.08em;color:var(--sub);border:1px solid var(--line);padding:2px 6px;}
+  .front .done-badge.on{background:var(--teal);color:#fff;border-color:var(--teal);}
+
+  .front h2{
+    font-family:'Noto Serif JP';font-size:14.5px;font-weight:700;color:var(--ink);
+    margin:0 0 8px;line-height:1.3;
+  }
+  .q-label{font-size:10px;letter-spacing:.1em;color:var(--gold);font-weight:700;margin-bottom:6px;}
+  .front .question{
+    font-size:13.5px;font-weight:700;color:var(--warn);line-height:1.5;margin-bottom:10px;
+    padding:8px 10px;background:var(--paper2);border-left:3px solid var(--warn);
+  }
+  .front .why{font-size:12px;color:var(--sub);line-height:1.6;margin-bottom:10px;}
+  .front .rule-tag{
+    margin-top:auto;font-size:11px;color:var(--teal);font-weight:700;
+    border-top:1px dashed var(--line);padding-top:8px;
+  }
+  .flip-hint{font-size:10px;color:var(--sub);text-align:right;margin-top:6px;}
+
+  .back .core{font-size:12px;line-height:1.65;margin-bottom:8px;}
+  .back .conv{
+    font-size:11.5px;line-height:1.55;margin-bottom:7px;padding-bottom:7px;
+    border-bottom:1px solid rgba(246,244,238,.15);
+  }
+  .back .conv:last-of-type{border-bottom:none;}
+  .back .conv .x{color:#E0A79A;}
+  .back .conv .o{color:#9FD8B5;}
+  .back .summary{
+    font-size:11.5px;font-weight:700;line-height:1.5;color:#fff;
+    background:rgba(255,255,255,.08);padding:7px 9px;margin-top:auto;border-left:3px solid var(--gold);
+  }
+
+  footer{max-width:980px;margin:36px auto 0;font-size:11px;color:var(--sub);text-align:center;}
+</style>
+</head>
+<body>
+
+  <div class="masthead">
+    <div>
+      <div class="brand">シン・AUD論点厳選</div>
+      <h1>CH10 Audit of Internal Control over Financial Reporting</h1>
+      <div class="en">Decision Framework — 問題を見た瞬間に「どのルールで判断するか」を決める</div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label">習得進捗</div>
+      <div class="progress-bar"><div class="progress-fill" id="pf"></div></div>
+      <div class="progress-count" id="pc">0 / 10</div>
+    </div>
+  </div>
+
+  <div class="flowmap">
+    <div class="step">SOX法の報告義務を確認</div>
+    <div class="arrow">→</div>
+    <div class="step">統合監査を計画</div>
+    <div class="arrow">→</div>
+    <div class="step">トップダウンで統制を評価</div>
+    <div class="arrow">→</div>
+    <div class="step">意見を形成し報告</div>
+  </div>
+  <div class="flow-caption">ICFR監査はSOX法上の報告義務の確認から始まり、統合監査としてFS監査と同時に計画し、トップダウン・アプローチで統制を評価した上で意見を形成し報告する。</div>
+
+  <div class="learning-map">
+    <table>
+      <tr><th class="no">No.</th><th class="topic">論点</th><th>判定ルール（暗記フック）</th></tr>
+      <tr><td class="no">01</td><td class="topic">SOX法の全体像と3つの報告書</td><td class="rule">302=署名者証明、404=経営者IC報告書、906=明示的証明</td></tr>
+      <tr><td class="no">02</td><td class="topic">ICFR監査の目的と統合監査</td><td class="rule">FS監査とICFR監査は同時実施、報告書は同一日付</td></tr>
+      <tr><td class="no">03</td><td class="topic">内部統制の不備：3段階の重大性</td><td class="rule">Material Weakness以上のみ調査が必要</td></tr>
+      <tr><td class="no">04</td><td class="topic">トップダウン・アプローチ</td><td class="rule">事業体レベル統制→重要勘定→原因理解→統制選定の順</td></tr>
+      <tr><td class="no">05</td><td class="topic">統制のテストと次年度への配慮</td><td class="rule">過去の知識を反映し、リスクが低ければテスト量削減可</td></tr>
+      <tr><td class="no">06</td><td class="topic">取りまとめ（Wrapping Up）</td><td class="rule">不備を全て発見する義務はないが、気づいた不備は書面報告</td></tr>
+      <tr><td class="no">07</td><td class="topic">意見形成の判定フロー</td><td class="rule">MWあり→Adverse一択。範囲制限あり→Disclaimer</td></tr>
+      <tr><td class="no">08</td><td class="topic">報告書の作成と修正状況</td><td class="rule">Combined/Separateいずれも可、4状況で修正が加わる</td></tr>
+      <tr><td class="no">09</td><td class="topic">無限定意見の標準文型</td><td class="rule">意見表明日は貸借対照表日、Fieldwork終了日ではない</td></tr>
+      <tr><td class="no">10</td><td class="topic">非公開企業に対する統合監査</td><td class="rule">非公開企業の統合監査は任意、実施時はGAAS準拠</td></tr>
+    </table>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <footer>クリック / タップでカードが反転します。裏面を見た論点は自動でチェックが付きます。 © 2026 @nekokabuchanx</footer>
+
+<script>
+const cards = [
+{
+"no": "01",
+"title": "SOX法の全体像と3つの報告書",
+"rule": "302=署名者証明、404=経営者IC報告書、906=明示的証明",
+"q": "PCAOBは、SECと同様の政府機関である。",
+"why": "PCAOBは非政府の独立機関（SECの監督下にあるが政府機関ではない）。",
+"conv": [
+[
+"PCAOBはSECと同様の政府機関である",
+"PCAOBは非政府の独立機関（SECの監督下にあるが政府機関ではない）"
+],
+[
+"登録会計事務所はPCAOBへ全クライアントの情報を開示する",
+"企業改革法適用クライアントのみの情報を開示する"
+],
+[
+"PCAOB検査はクライアント数に関わらず毎年実施される",
+"100社超は毎年、100社以下は3年に1度"
+]
+],
+"summary": "302=署名者がFSレビュー・IC有効性を証明／404=経営者の年次IC報告書／906=FS適正性とIC評価の明示的証明。"
+},
+{
+"no": "02",
+"title": "ICFR監査の目的と統合監査",
+"rule": "FS監査とICFR監査は同時実施、報告書は同一日付",
+"q": "内部統制報告書は、財務諸表監査報告書の少なくとも21日前に発行しなければならない。",
+"why": "『21日前ルール』は存在しない。FS監査とICFR監査は同時に実施し、報告書は同一日付とする。",
+"conv": [
+[
+"内部統制報告書はFS監査報告書の21日前に発行する",
+"そのようなルールは存在せず、同時に実施し同一日付とする"
+],
+[
+"Material Weaknessが1つあっても他が問題なければICFRは有効となりうる",
+"1つ以上あれば、その会社のICFRは有効とみなされない"
+],
+[
+"ICFR監査はFS監査とは別の会計事務所が実施すべきである",
+"同一の会計事務所が両方を同時に計画・実施する（統合監査）"
+]
+],
+"summary": "統合監査＝FS監査とICFR監査を同一事務所が同時実施。報告書は意見形成に十分な証拠を得た日以降の同一日付。"
+},
+{
+"no": "03",
+"title": "内部統制の不備：3段階の重大性",
+"rule": "Material Weakness以上のみ調査が必要",
+"q": "内部統制の不備は、Current/NoncurrentやGeneral/Applicationといった分類がある。",
+"why": "不備の分類はDesignとOperationの2種類のみ。Current/Noncurrent等の分類は存在しない。",
+"conv": [
+[
+"不備はCurrent/NoncurrentやGeneral/Applicationに分類される",
+"分類は設計上の不備と運用上の不備の2種類のみ"
+],
+[
+"Significant Deficiency未満の不備も監査人による調査が必要",
+"Material Weakness以上の不備のみ調査が必要"
+],
+[
+"予防的統制と発見的統制は同じ機能を持つ",
+"予防的統制は発生を予防、発見的統制は発生済の虚偽表示を発見する別機能"
+]
+],
+"summary": "Deficiency＜Significant Deficiency＜Material Weakness。Material Weakness以上のみ調査要。分類はDesign/Operationの2種。"
+},
+{
+"no": "04",
+"title": "トップダウン・アプローチ",
+"rule": "事業体レベル統制→重要勘定→原因理解→統制選定の順",
+"q": "トップダウン・アプローチは、特定のアサーションの識別から開始する。",
+"why": "正しい順序は事業体レベル統制の識別から開始し、その後重要勘定・アサーション・原因理解、統制の選定へ進む。",
+"conv": [
+[
+"トップダウン・アプローチは特定のアサーションの識別から開始する",
+"事業体レベル統制の識別から開始する"
+],
+[
+"事業体レベル統制が有効でも、必ず範囲を超えた追加テストが必要",
+"有効な事業体レベル統制があれば追加テストを省略できる"
+],
+[
+"虚偽表示原因の理解にはWalkthroughは不要である",
+"Walkthroughを実施して理解する"
+]
+],
+"summary": "①事業体レベル統制の識別→②重要勘定・アサーションの識別→③虚偽表示原因の理解(Walkthrough)→④統制の選定。"
+},
+{
+"no": "05",
+"title": "統制のテストと次年度への配慮",
+"rule": "過去の知識を反映し、リスクが低ければテスト量削減可",
+"q": "過去の監査で得た知識を次年度に反映させるには、過去の監査報告書が無限定意見である必要がある。",
+"why": "反映させる際、過去の監査報告書が無限定意見である必要はない。",
+"conv": [
+[
+"過去の知識の反映には過去の監査報告書が無限定意見である必要がある",
+"無限定意見である必要はない"
+],
+[
+"過去に得た知識は独立して扱い、将来の監査には反映させない",
+"将来の監査に反映させ、リスクが低ければテスト量を削減できる"
+],
+[
+"統制テストで確認するのは運用状況の有効性のみである",
+"整備状況の有効性(Design)と運用状況の有効性(Operating)の両方を確認する"
+]
+],
+"summary": "過去の知識（性質・時期・範囲・結果）を反映し、リスクが低ければ次年度のテスト量を削減できる（無限定意見である必要なし）。"
+},
+{
+"no": "06",
+"title": "取りまとめ（Wrapping Up）",
+"rule": "不備を全て発見する義務はないが、気づいた不備は書面報告",
+"q": "ICFR監査では、経営者からの確認書（management representation）の入手は不要である。",
+"why": "財務報告に係る内部統制監査においても、経営者からの確認書を入手しなければならない。",
+"conv": [
+[
+"ICFR監査では経営者確認書の入手は不要である",
+"経営者からの確認書を入手しなければならない"
+],
+[
+"監査人は全ての不備を発見する義務がある",
+"不備を全て発見する義務はないが、気づいた不備は書面で報告する"
+],
+[
+"重要な欠陥は経営者にのみ報告すればよい",
+"経営者及び監査委員会の両方に、報告書発行前に書面で報告する"
+]
+],
+"summary": "確認書の入手必須。気づいた不備は経営者に書面報告、重要な欠陥は監査委員会にも報告。経営者の年次報告書の記載も評価。"
+},
+{
+"no": "07",
+"title": "意見形成の判定フロー",
+"rule": "MWあり→Adverse一択。範囲制限あり→Disclaimer",
+"q": "重要な欠陥（Material Weakness）が発見された場合、監査人はQualified opinionを選択できる。",
+"why": "重要な欠陥を発見した場合の対応はAdverse Opinionの一択（Qualifiedは選べない）。",
+"conv": [
+[
+"Material Weakness発見時、監査人はQualified opinionを選べる",
+"Adverse Opinionの一択（Qualifiedという選択肢はない）"
+],
+[
+"監査範囲の制限がある場合、Qualified Opinionを表明できる",
+"Disclaimer of Opinionまたは契約からの辞退のみで、Qualifiedはない"
+],
+[
+"MWがなく範囲制限もなければ、意見はQualifiedになる",
+"Unqualified Opinion（無限定意見）になる"
+]
+],
+"summary": "Q1 MWあり？→Yes: Adverse／No→Q2 範囲制限あり？→Yes: Disclaimerまたは辞退／No: Unqualified。"
+},
+{
+"no": "08",
+"title": "報告書の作成と修正状況",
+"rule": "Combined/Separateいずれも可、4状況で修正が加わる",
+"q": "統合監査の報告書は、必ずCombined（合体）報告書として発行しなければならない。",
+"why": "Combined（合体）／Separate（独立）いずれも可。Separateの場合は双方に相手監査への言及を追加する。",
+"conv": [
+[
+"統合監査の報告書は必ずCombinedで発行する",
+"CombinedまたはSeparateいずれも可"
+],
+[
+"Separate Reportsの場合、相手監査への言及は不要である",
+"双方に相手監査への言及（Explanatory Paragraph）を追加する"
+],
+[
+"経営者の年次報告書に追加情報が含まれる場合、報告書の修正は不要",
+"4つの修正状況の一つに該当し、修正が加わる"
+]
+],
+"summary": "Combined／Separateいずれも可。①経営者報告書が不十分②範囲制限③他監査人への部分依拠④追加情報、で修正が加わる。"
+},
+{
+"no": "09",
+"title": "無限定意見の標準文型",
+"rule": "意見表明日は貸借対照表日、Fieldwork終了日ではない",
+"q": "ICFR監査報告書に記載する意見表明日は、監査人のFieldwork最終日である。",
+"why": "記載するのは会計年度の最終日（貸借対照表日）であり、Fieldwork最終日ではない。",
+"conv": [
+[
+"意見表明日として記載するのはFieldwork最終日である",
+"貸借対照表日（会計年度の最終日）を記載する"
+],
+[
+"報告書のOpinion on ICFRは最後に記載する",
+"財務報告に係る内部統制の有効性についての意見を最初に表明する"
+],
+[
+"Definition and Limitations区分は不要である",
+"内部統制の定義と固有の限界を記載する必須区分"
+]
+],
+"summary": "表題→Opinion on ICFR（最初）→Basis for Opinion→Definition and Limitations→統合監査の注意書き。日付は貸借対照表日。"
+},
+{
+"no": "10",
+"title": "非公開企業に対する統合監査",
+"rule": "非公開企業の統合監査は任意、実施時はGAAS準拠",
+"q": "非公開企業が統合監査を実施する場合、PCAOB Auditing Standardsに準拠しなければならない。",
+"why": "非公開企業が実施する場合はPCAOB基準ではなくGAAS（SAS）に準拠する。",
+"conv": [
+[
+"非公開企業の統合監査はPCAOB基準に準拠する",
+"GAAS（SAS）に準拠する"
+],
+[
+"非公開企業も統合監査の実施が企業改革法により強制される",
+"非公開企業には強制されず、任意"
+],
+[
+"非公開企業のその他の不備は、監査報告書発行日までに伝達が必要",
+"発行日の60日後までに経営者に伝達すればよい（書面である必要もない）"
+]
+],
+"summary": "公開企業＝強制・PCAOB基準・登録公開会計事務所必須。非公開企業＝任意・GAAS(SAS)・公開会計事務所である必要なし。"
+}
+];
+
+const grid = document.getElementById('grid');
+cards.forEach((c,i)=>{
+  const slot = document.createElement('div');
+  slot.className='card-slot';
+  slot.id='slot-'+i;
+  slot.innerHTML = `
+    <div class="card">
+      <div class="face front">
+        <div class="tag-row">
+          <div class="no-badge">${c.no}</div>
+          <div class="done-badge" id="badge-${i}">未学習</div>
+        </div>
+        <h2>${c.title}</h2>
+        <div class="q-label">QUESTION（正誤判定）</div>
+        <div class="question">${c.q}</div>
+        <div class="why">${c.why}</div>
+        <div class="rule-tag">RULE｜${c.rule}</div>
+        <div class="flip-hint">タップして解説へ ▸</div>
+      </div>
+      <div class="face back">
+        <div class="q-label">誤答 → 正解へ変換</div>
+        ${c.conv.map(p=>`<div class="conv"><span class="x">×</span> ${p[0]}<br><span class="o">○</span> ${p[1]}</div>`).join('')}
+        <div class="summary">${c.summary}</div>
+      </div>
+    </div>
+  `;
+  slot.addEventListener('click', ()=>{
+    slot.classList.toggle('flipped');
+    if(slot.classList.contains('flipped')){
+      document.getElementById('badge-'+i).textContent='済';
+      document.getElementById('badge-'+i).classList.add('on');
+      updateProgress();
+    }
+  });
+  grid.appendChild(slot);
+});
+
+function updateProgress(){
+  const done = document.querySelectorAll('.done-badge.on').length;
+  document.getElementById('pf').style.width = (done/cards.length*100)+'%';
+  document.getElementById('pc').textContent = done+' / '+cards.length;
+}
+</script>
+</body>
+</html>

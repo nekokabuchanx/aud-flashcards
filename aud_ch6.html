@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>USCPA・AUD論点まとめ CH6 フラッシュカード</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap');
+
+  :root{
+    --ink:#14213D;
+    --paper:#F6F4EE;
+    --paper2:#EFEBE1;
+    --gold:#B8862B;
+    --teal:#1F5F5B;
+    --warn:#9C3B2E;
+    --line:#D8D2C2;
+    --text:#232323;
+    --sub:#6B6558;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    font-family:'Noto Sans JP','メイリオ',sans-serif;
+    color:var(--text);
+    padding:28px 20px 60px;
+  }
+
+  .masthead{
+    max-width:980px;margin:0 auto 22px;
+    border-bottom:3px solid var(--ink);
+    padding-bottom:14px;
+    display:flex;justify-content:space-between;align-items:flex-end;
+    gap:16px;flex-wrap:wrap;
+  }
+  .masthead .brand{font-size:11px;letter-spacing:.14em;color:var(--sub);text-transform:uppercase;}
+  .masthead h1{
+    font-family:'Noto Serif JP';font-weight:900;
+    font-size:24px;color:var(--ink);margin:2px 0 0;letter-spacing:.02em;
+  }
+  .masthead .en{font-size:12px;color:var(--sub);font-style:italic;margin-top:2px;}
+  .progress-wrap{text-align:right;min-width:150px;}
+  .progress-label{font-size:11px;color:var(--sub);margin-bottom:4px;}
+  .progress-bar{width:150px;height:6px;background:var(--paper2);border:1px solid var(--line);}
+  .progress-fill{height:100%;background:var(--teal);width:0%;transition:width .35s;}
+  .progress-count{font-size:13px;color:var(--ink);font-weight:700;margin-top:4px;}
+
+  .flowmap{
+    max-width:980px;margin:0 auto 12px;
+    background:var(--ink);color:var(--paper);
+    padding:16px 20px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  }
+  .flowmap .step{
+    font-size:13px;font-weight:700;padding:5px 10px;border:1px solid rgba(246,244,238,.35);
+    white-space:nowrap;
+  }
+  .flowmap .arrow{color:var(--gold);font-weight:900;}
+  .flow-caption{max-width:980px;margin:0 auto 26px;font-size:11.5px;color:var(--sub);text-align:right;font-style:italic;}
+
+  .learning-map{max-width:980px;margin:0 auto 32px;overflow-x:auto;}
+  .learning-map table{width:100%;border-collapse:collapse;font-size:12.5px;}
+  .learning-map th{
+    background:var(--ink);color:var(--paper);text-align:left;padding:8px 10px;font-weight:700;
+  }
+  .learning-map td{padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
+  .learning-map tr:nth-child(even) td{background:var(--paper2);}
+  .learning-map .no{color:var(--gold);font-weight:900;width:28px;}
+  .learning-map .topic{font-weight:700;color:var(--ink);width:220px;}
+  .learning-map .rule{color:var(--teal);font-weight:700;white-space:nowrap;}
+
+  .grid{
+    max-width:980px;margin:0 auto;
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;
+  }
+  .card-slot{perspective:1600px;height:400px;}
+  .card{
+    position:relative;width:100%;height:100%;
+    transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,.2,.2,1);
+    cursor:pointer;
+  }
+  .card-slot.flipped .card{transform:rotateY(180deg);}
+  .face{
+    position:absolute;inset:0;backface-visibility:hidden;
+    border:1px solid var(--ink);display:flex;flex-direction:column;
+    padding:16px 16px 14px;overflow:hidden;
+  }
+  .front{background:var(--paper);}
+  .back{background:var(--ink);color:var(--paper);transform:rotateY(180deg);}
+
+  .tag-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+  .no-badge{font-family:'Noto Serif JP';font-weight:900;font-size:18px;color:var(--gold);}
+  .done-badge{font-size:10px;letter-spacing:.08em;color:var(--sub);border:1px solid var(--line);padding:2px 6px;}
+  .front .done-badge.on{background:var(--teal);color:#fff;border-color:var(--teal);}
+
+  .front h2{
+    font-family:'Noto Serif JP';font-size:14.5px;font-weight:700;color:var(--ink);
+    margin:0 0 8px;line-height:1.3;
+  }
+  .q-label{font-size:10px;letter-spacing:.1em;color:var(--gold);font-weight:700;margin-bottom:6px;}
+  .front .question{
+    font-size:13.5px;font-weight:700;color:var(--warn);line-height:1.5;margin-bottom:10px;
+    padding:8px 10px;background:var(--paper2);border-left:3px solid var(--warn);
+  }
+  .front .why{font-size:12px;color:var(--sub);line-height:1.6;margin-bottom:10px;}
+  .front .rule-tag{
+    margin-top:auto;font-size:11px;color:var(--teal);font-weight:700;
+    border-top:1px dashed var(--line);padding-top:8px;
+  }
+  .flip-hint{font-size:10px;color:var(--sub);text-align:right;margin-top:6px;}
+
+  .back .core{font-size:12px;line-height:1.65;margin-bottom:8px;}
+  .back .conv{
+    font-size:11.5px;line-height:1.55;margin-bottom:7px;padding-bottom:7px;
+    border-bottom:1px solid rgba(246,244,238,.15);
+  }
+  .back .conv:last-of-type{border-bottom:none;}
+  .back .conv .x{color:#E0A79A;}
+  .back .conv .o{color:#9FD8B5;}
+  .back .summary{
+    font-size:11.5px;font-weight:700;line-height:1.5;color:#fff;
+    background:rgba(255,255,255,.08);padding:7px 9px;margin-top:auto;border-left:3px solid var(--gold);
+  }
+
+  footer{max-width:980px;margin:36px auto 0;font-size:11px;color:var(--sub);text-align:center;}
+</style>
+</head>
+<body>
+
+  <div class="masthead">
+    <div>
+      <div class="brand">シン・AUD論点厳選</div>
+      <h1>CH6 Internal Control: Part I</h1>
+      <div class="en">Decision Framework — 問題を見た瞬間に「どのルールで判断するか」を決める</div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label">習得進捗</div>
+      <div class="progress-bar"><div class="progress-fill" id="pf"></div></div>
+      <div class="progress-count" id="pc">0 / 7</div>
+    </div>
+  </div>
+
+  <div class="flowmap">
+    <div class="step">目的とICFRを確認</div>
+    <div class="arrow">→</div>
+    <div class="step">5要素・限界を理解</div>
+    <div class="arrow">→</div>
+    <div class="step">整備・導入を評価</div>
+    <div class="arrow">→</div>
+    <div class="step">文書化する</div>
+  </div>
+  <div class="flow-caption">内部統制はICFRとの関連を出発点に、5要素と固有の限界を理解した上で、整備・導入の状況をリスク評価手続で確かめ、文書化する。</div>
+
+  <div class="learning-map">
+    <table>
+      <tr><th class="no">No.</th><th class="topic">論点</th><th>判定ルール（暗記フック）</th></tr>
+      <tr><td class="no">01</td><td class="topic">3つの目的とICFR</td><td class="rule">監査に直接関連するのは財務報告の信頼性(ICFR)のみ</td></tr>
+      <tr><td class="no">02</td><td class="topic">5つの構成要素</td><td class="rule">統制環境が他の4要素すべての基礎</td></tr>
+      <tr><td class="no">03</td><td class="topic">固有の限界</td><td class="rule">人的ミス・共謀・経営者の無効化は防げない</td></tr>
+      <tr><td class="no">04</td><td class="topic">内部統制を理解する目的</td><td class="rule">目的はRMM評価、固有リスクは統制を考慮せず評価</td></tr>
+      <tr><td class="no">05</td><td class="topic">整備・導入・運用の判定フロー</td><td class="rule">計画段階の理解対象はDesignとImplementationのみ</td></tr>
+      <tr><td class="no">06</td><td class="topic">リスク評価手続</td><td class="rule">質問・分析的手続・観察及び検証。確認は含まれない</td></tr>
+      <tr><td class="no">07</td><td class="topic">文書化の要求</td><td class="rule">GAASでは文書化必須。4つの方法から選ぶ</td></tr>
+    </table>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <footer>クリック / タップでカードが反転します。裏面を見た論点は自動でチェックが付きます。 © 2026 @nekokabuchanx</footer>
+
+<script>
+const cards = [
+{
+"no": "01",
+"title": "3つの目的とICFR",
+"rule": "監査に直接関連するのは財務報告の信頼性(ICFR)のみ",
+"q": "内部統制の3つの目的のうち、財務諸表監査に直接関連するのは業務の有効性・効率性である。",
+"why": "監査に直接関連するのは『報告の信頼性』に係る内部統制（ICFR）のみ。業務の有効性・効率性は間接的関連。",
+"conv": [
+[
+"財務諸表監査に直接関連するのは業務の有効性・効率性",
+"直接関連するのは報告の信頼性（ICFR）のみ"
+],
+[
+"内部統制の費用対効果は考慮しなくてよい",
+"合理的保証＝内部統制の費用は得られる効果を超えるべきでないという考え方"
+],
+[
+"監査は内部統制を無視して実施できる",
+"監査証拠の大半は内部統制を通じて作成されるため、無視した監査は実務上不可能"
+]
+],
+"summary": "3目的＝報告の信頼性(◎直接)／業務の有効性・効率性(△間接)／法規の遵守(△間接)。"
+},
+{
+"no": "02",
+"title": "5つの構成要素",
+"rule": "統制環境が他の4要素すべての基礎",
+"q": "モニタリング活動は、内部統制の5要素の中で最も基礎となる要素である。",
+"why": "統制環境が全ての構成要素の基礎であり、モニタリングは5要素全体が機能しているかを見渡す役割。",
+"conv": [
+[
+"モニタリング活動が5要素の中で最も基礎となる",
+"統制環境が全ての構成要素の基礎となる"
+],
+[
+"経営者の経営スタイルは統制環境への影響が小さい",
+"一人が経営を支配していれば理念・方針の影響は最も大きい（M6-5-4）"
+],
+[
+"統制活動には情報システムやマニュアルの整備が含まれる",
+"それは情報と伝達の要素。統制活動はリスク低減のための方針・手続の実行"
+]
+],
+"summary": "統制環境（基礎）→リスク評価→統制活動→情報と伝達→監視活動、の5要素。統制環境が最重要の土台。"
+},
+{
+"no": "03",
+"title": "固有の限界",
+"rule": "人的ミス・共謀・経営者の無効化は防げない",
+"q": "兼務不能な職務であっても、複数人に分割すれば内部統制の限界を解消できない。",
+"why": "兼務不能な職務でも複数人で分割すれば内部統制は有効化できる（Incompatible dutiesは限界ではない）。",
+"conv": [
+[
+"兼務不能な職務を複数人に分割しても限界は解消できない",
+"複数人で分割すれば内部統制は有効化できる"
+],
+[
+"市場競争による退出リスクは内部統制の固有の限界の一つ",
+"市場競争による退出リスクは内部統制の限界の論点ではない（M6-10-3）"
+],
+[
+"内部統制が有効に整備・運用されれば虚偽表示は必ず防止できる",
+"人的判断の誤り・共謀・経営者の無効化により、防止・発見できない場合がある"
+]
+],
+"summary": "限界＝人的判断の誤り／共謀／経営者による無効化。整備・運用の有効性は必要条件であって十分条件ではない。"
+},
+{
+"no": "04",
+"title": "内部統制を理解する目的",
+"rule": "目的はRMM評価、固有リスクは統制を考慮せず評価",
+"q": "内部統制を理解する主な目的は、統制テストの内容を変更するかどうかを検討することである。",
+"why": "内部統制の理解の目的は、財務諸表アサーションの観点からRMM（重要な虚偽表示リスク）を評価すること。",
+"conv": [
+[
+"内部統制理解の主目的は統制テストの内容変更の検討",
+"目的はRMM（重要な虚偽表示リスク）の評価"
+],
+[
+"固有リスク（IR）は内部統制を考慮したうえで評価する",
+"固有リスクは内部統制を考慮せずに評価する（M6-11-2）"
+],
+[
+"建設的な改善提案の提供が監査の主目的の一つである",
+"建設的な改善提案は監査の二次的目的にすぎない"
+]
+],
+"summary": "内部統制の理解＝RMM評価が目的。固有リスクは統制を考慮せず評価。改善提案は二次的目的。"
+},
+{
+"no": "05",
+"title": "整備・導入・運用の判定フロー",
+"rule": "計画段階の理解対象はDesignとImplementationのみ",
+"q": "監査計画段階で、統制の運用状況の有効性（Operating Effectiveness）まで評価する。",
+"why": "監査計画段階の理解対象はDesignとImplementationのみで、Operating Effectivenessは統制テストの段階で評価する。",
+"conv": [
+[
+"監査計画段階で運用状況の有効性まで評価する",
+"計画段階の理解対象はDesignとImplementationのみ"
+],
+[
+"統制が整備通りに一貫運用されているかも計画段階で評価する",
+"その評価も計画段階より後（統制テストの段階）"
+],
+[
+"導入(Implementation)の確認はTest of Controlsで行う",
+"導入の確認はリスク評価手続（質問・観察等）で計画段階に行う"
+]
+],
+"summary": "①整備(Design)→②導入(Implementation)→③運用の有効性(統制テストで評価)。計画段階は①②のみ。"
+},
+{
+"no": "06",
+"title": "リスク評価手続",
+"rule": "質問・分析的手続・観察及び検証。確認は含まれない",
+"q": "内部統制の導入を確かめるリスク評価手続には、勘定残高の確認（confirmation）が含まれる。",
+"why": "確認（confirmation）はリスク評価手続に含まれず、実証性テストの手続。",
+"conv": [
+[
+"リスク評価手続には勘定残高の確認（confirmation）が含まれる",
+"確認は実証性テストの手続であり、リスク評価手続には含まれない（M6-15-2）"
+],
+[
+"計画段階の分析的手続は、虚偽表示発見の保証を得るために行う",
+"事業の理解を深めリスクの高い分野を特定するために実施する"
+],
+[
+"ウォークスルーは重要なプロセスについて数年に一度実施すればよい",
+"重大なプロセスごとに毎年実施が必要"
+]
+],
+"summary": "リスク評価手続＝質問・分析的手続・観察及び検証・ウォークスルー。確認(confirmation)は含まれない。"
+},
+{
+"no": "07",
+"title": "文書化の要求",
+"rule": "GAASでは文書化必須。4つの方法から選ぶ",
+"q": "依頼人が手続マニュアルを用意していない場合、監査人は内部統制の理解を文書化しなくてよい。",
+"why": "依頼人がマニュアルを用意していなくても、監査人は自らの責任で理解を文書化しなければならない。",
+"conv": [
+[
+"依頼人にマニュアルがなければ文書化は不要",
+"監査人は自らの責任で文書化しなければならない（限定意見の根拠にはならない）"
+],
+[
+"フローチャートは作成が容易で個別事情も反映しやすい",
+"フローチャートは全体像を把握しやすいが作成に時間を要する"
+],
+[
+"質問書（Questionnaire）は複雑な判断の整理に最も強い",
+"複雑な判断の整理に強いのはディシジョン・テーブル"
+]
+],
+"summary": "GAASで文書化必須。手法は質問書・フローチャート・ディシジョンテーブル・メモの4種。"
+}
+];
+
+const grid = document.getElementById('grid');
+cards.forEach((c,i)=>{
+  const slot = document.createElement('div');
+  slot.className='card-slot';
+  slot.id='slot-'+i;
+  slot.innerHTML = `
+    <div class="card">
+      <div class="face front">
+        <div class="tag-row">
+          <div class="no-badge">${c.no}</div>
+          <div class="done-badge" id="badge-${i}">未学習</div>
+        </div>
+        <h2>${c.title}</h2>
+        <div class="q-label">QUESTION（正誤判定）</div>
+        <div class="question">${c.q}</div>
+        <div class="why">${c.why}</div>
+        <div class="rule-tag">RULE｜${c.rule}</div>
+        <div class="flip-hint">タップして解説へ ▸</div>
+      </div>
+      <div class="face back">
+        <div class="q-label">誤答 → 正解へ変換</div>
+        ${c.conv.map(p=>`<div class="conv"><span class="x">×</span> ${p[0]}<br><span class="o">○</span> ${p[1]}</div>`).join('')}
+        <div class="summary">${c.summary}</div>
+      </div>
+    </div>
+  `;
+  slot.addEventListener('click', ()=>{
+    slot.classList.toggle('flipped');
+    if(slot.classList.contains('flipped')){
+      document.getElementById('badge-'+i).textContent='済';
+      document.getElementById('badge-'+i).classList.add('on');
+      updateProgress();
+    }
+  });
+  grid.appendChild(slot);
+});
+
+function updateProgress(){
+  const done = document.querySelectorAll('.done-badge.on').length;
+  document.getElementById('pf').style.width = (done/cards.length*100)+'%';
+  document.getElementById('pc').textContent = done+' / '+cards.length;
+}
+</script>
+</body>
+</html>

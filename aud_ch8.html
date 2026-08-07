@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>USCPA・AUD論点まとめ CH8 フラッシュカード</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap');
+
+  :root{
+    --ink:#14213D;
+    --paper:#F6F4EE;
+    --paper2:#EFEBE1;
+    --gold:#B8862B;
+    --teal:#1F5F5B;
+    --warn:#9C3B2E;
+    --line:#D8D2C2;
+    --text:#232323;
+    --sub:#6B6558;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    font-family:'Noto Sans JP','メイリオ',sans-serif;
+    color:var(--text);
+    padding:28px 20px 60px;
+  }
+
+  .masthead{
+    max-width:980px;margin:0 auto 22px;
+    border-bottom:3px solid var(--ink);
+    padding-bottom:14px;
+    display:flex;justify-content:space-between;align-items:flex-end;
+    gap:16px;flex-wrap:wrap;
+  }
+  .masthead .brand{font-size:11px;letter-spacing:.14em;color:var(--sub);text-transform:uppercase;}
+  .masthead h1{
+    font-family:'Noto Serif JP';font-weight:900;
+    font-size:24px;color:var(--ink);margin:2px 0 0;letter-spacing:.02em;
+  }
+  .masthead .en{font-size:12px;color:var(--sub);font-style:italic;margin-top:2px;}
+  .progress-wrap{text-align:right;min-width:150px;}
+  .progress-label{font-size:11px;color:var(--sub);margin-bottom:4px;}
+  .progress-bar{width:150px;height:6px;background:var(--paper2);border:1px solid var(--line);}
+  .progress-fill{height:100%;background:var(--teal);width:0%;transition:width .35s;}
+  .progress-count{font-size:13px;color:var(--ink);font-weight:700;margin-top:4px;}
+
+  .flowmap{
+    max-width:980px;margin:0 auto 12px;
+    background:var(--ink);color:var(--paper);
+    padding:16px 20px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  }
+  .flowmap .step{
+    font-size:13px;font-weight:700;padding:5px 10px;border:1px solid rgba(246,244,238,.35);
+    white-space:nowrap;
+  }
+  .flowmap .arrow{color:var(--gold);font-weight:900;}
+  .flow-caption{max-width:980px;margin:0 auto 26px;font-size:11.5px;color:var(--sub);text-align:right;font-style:italic;}
+
+  .learning-map{max-width:980px;margin:0 auto 32px;overflow-x:auto;}
+  .learning-map table{width:100%;border-collapse:collapse;font-size:12.5px;}
+  .learning-map th{
+    background:var(--ink);color:var(--paper);text-align:left;padding:8px 10px;font-weight:700;
+  }
+  .learning-map td{padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
+  .learning-map tr:nth-child(even) td{background:var(--paper2);}
+  .learning-map .no{color:var(--gold);font-weight:900;width:28px;}
+  .learning-map .topic{font-weight:700;color:var(--ink);width:220px;}
+  .learning-map .rule{color:var(--teal);font-weight:700;white-space:nowrap;}
+
+  .grid{
+    max-width:980px;margin:0 auto;
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;
+  }
+  .card-slot{perspective:1600px;height:400px;}
+  .card{
+    position:relative;width:100%;height:100%;
+    transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,.2,.2,1);
+    cursor:pointer;
+  }
+  .card-slot.flipped .card{transform:rotateY(180deg);}
+  .face{
+    position:absolute;inset:0;backface-visibility:hidden;
+    border:1px solid var(--ink);display:flex;flex-direction:column;
+    padding:16px 16px 14px;overflow:hidden;
+  }
+  .front{background:var(--paper);}
+  .back{background:var(--ink);color:var(--paper);transform:rotateY(180deg);}
+
+  .tag-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+  .no-badge{font-family:'Noto Serif JP';font-weight:900;font-size:18px;color:var(--gold);}
+  .done-badge{font-size:10px;letter-spacing:.08em;color:var(--sub);border:1px solid var(--line);padding:2px 6px;}
+  .front .done-badge.on{background:var(--teal);color:#fff;border-color:var(--teal);}
+
+  .front h2{
+    font-family:'Noto Serif JP';font-size:14.5px;font-weight:700;color:var(--ink);
+    margin:0 0 8px;line-height:1.3;
+  }
+  .q-label{font-size:10px;letter-spacing:.1em;color:var(--gold);font-weight:700;margin-bottom:6px;}
+  .front .question{
+    font-size:13.5px;font-weight:700;color:var(--warn);line-height:1.5;margin-bottom:10px;
+    padding:8px 10px;background:var(--paper2);border-left:3px solid var(--warn);
+  }
+  .front .why{font-size:12px;color:var(--sub);line-height:1.6;margin-bottom:10px;}
+  .front .rule-tag{
+    margin-top:auto;font-size:11px;color:var(--teal);font-weight:700;
+    border-top:1px dashed var(--line);padding-top:8px;
+  }
+  .flip-hint{font-size:10px;color:var(--sub);text-align:right;margin-top:6px;}
+
+  .back .core{font-size:12px;line-height:1.65;margin-bottom:8px;}
+  .back .conv{
+    font-size:11.5px;line-height:1.55;margin-bottom:7px;padding-bottom:7px;
+    border-bottom:1px solid rgba(246,244,238,.15);
+  }
+  .back .conv:last-of-type{border-bottom:none;}
+  .back .conv .x{color:#E0A79A;}
+  .back .conv .o{color:#9FD8B5;}
+  .back .summary{
+    font-size:11.5px;font-weight:700;line-height:1.5;color:#fff;
+    background:rgba(255,255,255,.08);padding:7px 9px;margin-top:auto;border-left:3px solid var(--gold);
+  }
+
+  footer{max-width:980px;margin:36px auto 0;font-size:11px;color:var(--sub);text-align:center;}
+</style>
+</head>
+<body>
+
+  <div class="masthead">
+    <div>
+      <div class="brand">シン・AUD論点厳選</div>
+      <h1>CH8 Substantive Tests: Part I</h1>
+      <div class="en">Decision Framework — 問題を見た瞬間に「どのルールで判断するか」を決める</div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label">習得進捗</div>
+      <div class="progress-bar"><div class="progress-fill" id="pf"></div></div>
+      <div class="progress-count" id="pc">0 / 8</div>
+    </div>
+  </div>
+
+  <div class="flowmap">
+    <div class="step">証拠の十分性・適切性を評価</div>
+    <div class="arrow">→</div>
+    <div class="step">見積りの妥当性を検証</div>
+    <div class="arrow">→</div>
+    <div class="step">分析的手続を実施</div>
+    <div class="arrow">→</div>
+    <div class="step">詳細テストで残高を検証</div>
+  </div>
+  <div class="flow-caption">実証性テストは監査証拠の質と量の評価を出発点に、見積りの妥当性検証、分析的手続、詳細テストへと段階的に虚偽表示を特定していく。</div>
+
+  <div class="learning-map">
+    <table>
+      <tr><th class="no">No.</th><th class="topic">論点</th><th>判定ルール（暗記フック）</th></tr>
+      <tr><td class="no">01</td><td class="topic">監査証拠の十分性・適切性</td><td class="rule">十分性=量、適切性=質(関連性+信頼性)。直接入手が最強</td></tr>
+      <tr><td class="no">02</td><td class="topic">監査証拠の種類</td><td class="rule">会計記録だけでは不十分、その他の情報と組み合わせる</td></tr>
+      <tr><td class="no">03</td><td class="topic">会計上の見積りに対する監査</td><td class="rule">第一歩は経営者の見積り方法の理解</td></tr>
+      <tr><td class="no">04</td><td class="topic">実証性テストと分析的手続</td><td class="rule">目的は虚偽表示の特定、分析的手続は証明力が弱い</td></tr>
+      <tr><td class="no">05</td><td class="topic">詳細テストの種類</td><td class="rule">同じ手続名でも目的で統制/実証テストを区別</td></tr>
+      <tr><td class="no">06</td><td class="topic">性質・時期・範囲</td><td class="rule">DR許容水準を低くしたい場合、3方向で厳格化</td></tr>
+      <tr><td class="no">07</td><td class="topic">分析的手続の3段階</td><td class="rule">計画時と最終段階は必須、実証テストは任意</td></tr>
+      <tr><td class="no">08</td><td class="topic">分析的手続の手法と有効性</td><td class="rule">予測値→許容範囲→比較→乖離調査の一本道</td></tr>
+    </table>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <footer>クリック / タップでカードが反転します。裏面を見た論点は自動でチェックが付きます。 © 2026 @nekokabuchanx</footer>
+
+<script>
+const cards = [
+{
+"no": "01",
+"title": "監査証拠の十分性・適切性",
+"rule": "十分性=量、適切性=質(関連性+信頼性)。直接入手が最強",
+"q": "依頼人を経由して間接的に入手した外部証拠は、監査人が直接入手した外部証拠より信頼性が高い。",
+"why": "監査人が直接入手した証拠の方が、推測に基づく証拠（依頼人経由等）より信頼性が高い。",
+"conv": [
+[
+"依頼人経由の外部証拠の方が直接入手より信頼性が高い",
+"監査人が直接入手した証拠の方が信頼性が高い"
+],
+[
+"証拠の信頼性は証拠の『量』の多さで決まる",
+"信頼性は『量』ではなく『適格性（competence）』の問題"
+],
+[
+"監査証拠は絶対的な証明を提供するものである",
+"監査証拠は通常“説得力がある(persuasive)”ものであり、絶対的な証明ではない"
+]
+],
+"summary": "外部＞内部、統制有効な企業の証拠＞脆弱、直接入手＞推測、文書＞口頭、原本＞コピー。"
+},
+{
+"no": "02",
+"title": "監査証拠の種類",
+"rule": "会計記録だけでは不十分、その他の情報と組み合わせる",
+"q": "会計帳簿と原始証憑（会計記録）だけで、十分かつ適切な監査証拠として足りる。",
+"why": "議事録や確認回答等の『その他の情報』と組み合わせて初めて十分適切な証拠となる。",
+"conv": [
+[
+"会計記録だけで十分かつ適切な監査証拠として足りる",
+"その他の情報（議事録・確認回答等）と組み合わせる必要がある"
+],
+[
+"経営者の確認書（representation）は会計記録に分類される",
+"経営者の確認書はその他の情報に分類される"
+],
+[
+"確認状に対する回答は監査証拠に含まれない",
+"確認状への回答はその他の情報として監査証拠に含まれる"
+]
+],
+"summary": "会計記録（帳簿・原始証憑）＋その他の情報（議事録・確認書・分析的手続の結果等）で十分適切な証拠とする。"
+},
+{
+"no": "03",
+"title": "会計上の見積りに対する監査",
+"rule": "第一歩は経営者の見積り方法の理解",
+"q": "会計上の見積りの監査では、まず監査人独自の見積りを算出し、それを経営者の見積りと比較することから始める。",
+"why": "評価の第一歩は『経営者がどのように見積りを算出したか』の理解。独自予想の算出はその後の段階。",
+"conv": [
+[
+"まず監査人独自の見積りを算出し経営者の見積りと比較する",
+"まず経営者がどのように見積りを算出したかを理解することから始める"
+],
+[
+"見積りの監査は実証性テストのみで完結する",
+"企業内容の理解→リスク評価・統制テスト→実証性テストの3段階で進める"
+],
+[
+"Significant riskに該当する見積りでも通常の手続で十分",
+"代替的仮定の検討状況・重要な仮定の合理性・対応措置の実行能力を特に検討する"
+]
+],
+"summary": "①企業内容・環境の理解→②リスク評価手続・統制テスト→③実証性テスト、の順で見積りの妥当性を検証。"
+},
+{
+"no": "04",
+"title": "実証性テストと分析的手続",
+"rule": "目的は虚偽表示の特定、分析的手続は証明力が弱い",
+"q": "分析的手続は証明力が高く、単独で実証性テストを簡略化する手段として使える。",
+"why": "分析的手続は証拠として有用だが証明力は弱く、単独では簡略化の手段にならない。",
+"conv": [
+[
+"分析的手続は単独で実証性テストを簡略化する手段になる",
+"証明力が弱く、単独では簡略化の手段にならない"
+],
+[
+"重要な取引のアサーションは分析的手続だけで済ませてよい",
+"重要な取引のアサーションは全て実証性テスト(ST)を実施する"
+],
+[
+"BS科目（Ratio分析）の方がPL科目（Trend分析）より予測しやすい",
+"PL（Trend分析）の方がBS（Ratio分析）より予測しやすい"
+]
+],
+"summary": "実証性テストの目的＝Identify Misstatements。分析的手続は証明力が弱く、予測と不整合ならTest of Detailsを実施。"
+},
+{
+"no": "05",
+"title": "詳細テストの種類",
+"rule": "同じ手続名でも目的で統制/実証テストを区別",
+"q": "顧客への直接確認（confirmation）は、統制の運用状況を確認するための統制のテストに分類される。",
+"why": "顧客への直接確認は残高の検証が目的なので実証性テストに分類される。",
+"conv": [
+[
+"顧客への直接確認は統制のテストに分類される",
+"残高の検証が目的なので実証性テストに分類される"
+],
+[
+"承認印の有無の確認（inspection）は実証性テストである",
+"統制の運用状況の確認が目的なので統制のテスト"
+],
+[
+"後発事象のInquiryは統制のテストに分類される",
+"残高・開示の検証が目的なので実証性テストに分類される"
+]
+],
+"summary": "手続名（質問・閲覧・再計算等）は同じでも、『統制の運用確認』か『残高の検証』かで統制テストか実証性テストかが決まる。"
+},
+{
+"no": "06",
+"title": "性質・時期・範囲",
+"rule": "DR許容水準を低くしたい場合、3方向で厳格化",
+"q": "期中（interim date）に実証性テストを実施した場合、期末までの追加テストは不要である。",
+"why": "期中実施の場合、期中から期末日までの追加的な発見リスクを評価し、残りの期間について追加テストを行う。",
+"conv": [
+[
+"期中実施なら期末までの追加テストは不要",
+"期中から期末までの追加リスクを評価し、残り期間の追加テストを行う"
+],
+[
+"分析的手続・質問は証明力が高い手続に分類される",
+"証明力が弱く、発見リスクを低く抑えたい場合は他の詳細テストと組み合わせる"
+],
+[
+"発見リスクの許容水準を下げる際、サンプル件数は減らしてよい",
+"サンプル件数を増やす、重要性の基準値を引き下げる等で厳格化する"
+]
+],
+"summary": "DR許容水準を低くしたい場合、性質（証明力の高い手続へ）・時期（期末に近く）・範囲（広く）の3方向で厳格化。"
+},
+{
+"no": "07",
+"title": "分析的手続の3段階",
+"rule": "計画時と最終段階は必須、実証テストは任意",
+"q": "実証性テストとしての分析的手続の実施は、Planning・Overall Reviewと同様に必須である。",
+"why": "実証性テストとしての分析的手続は任意（Test of Detailsとの選択適用）。必須なのはPlanningとOverall Reviewの2段階。",
+"conv": [
+[
+"実証性テストとしての分析的手続も必須である",
+"任意（Test of Detailsとの選択適用）。必須はPlanningとOverall Reviewのみ"
+],
+[
+"最終段階で予想外の関係が見つかれば、それだけで不正の存在を意味する",
+"それだけでは不正や内部統制の不備を意味せず、追加の詳細テストを実施する"
+],
+[
+"最終段階（Overall Review）は特定のアサーションのみを分析する",
+"財務諸表全体を分析し、認識との整合性を確認する"
+]
+],
+"summary": "①計画時（必須・FS全体）②実証性テスト（任意・特定アサーション）③最終段階（必須・FS全体）。"
+},
+{
+"no": "08",
+"title": "分析的手続の手法と有効性",
+"rule": "予測値→許容範囲→比較→乖離調査の一本道",
+"q": "分析的手続の有効性は、勘定科目の金額の大きさによって決まる。",
+"why": "有効性はアサーションへの適合性・データの信頼性・予測値の精度の3要因で決まる。",
+"conv": [
+[
+"分析的手続の有効性は勘定科目の金額の大きさで決まる",
+"アサーションへの適合性・データの信頼性・予測値の精度の3要因で決まる"
+],
+[
+"水平分析は業界平均と比較する手法である",
+"業界平均と比較するのは比率分析。水平分析は過年度と当期を比較する"
+],
+[
+"経営者の裁量に応じて決まる項目はデータ間の関係を予測しやすい",
+"経営者の裁量に応じて決まる項目は関係を予測しづらい"
+]
+],
+"summary": "手順＝予測値設定→許容範囲設定→比較→乖離調査。有効性＝適合性・データの信頼性・予測値の精度の3要因。"
+}
+];
+
+const grid = document.getElementById('grid');
+cards.forEach((c,i)=>{
+  const slot = document.createElement('div');
+  slot.className='card-slot';
+  slot.id='slot-'+i;
+  slot.innerHTML = `
+    <div class="card">
+      <div class="face front">
+        <div class="tag-row">
+          <div class="no-badge">${c.no}</div>
+          <div class="done-badge" id="badge-${i}">未学習</div>
+        </div>
+        <h2>${c.title}</h2>
+        <div class="q-label">QUESTION（正誤判定）</div>
+        <div class="question">${c.q}</div>
+        <div class="why">${c.why}</div>
+        <div class="rule-tag">RULE｜${c.rule}</div>
+        <div class="flip-hint">タップして解説へ ▸</div>
+      </div>
+      <div class="face back">
+        <div class="q-label">誤答 → 正解へ変換</div>
+        ${c.conv.map(p=>`<div class="conv"><span class="x">×</span> ${p[0]}<br><span class="o">○</span> ${p[1]}</div>`).join('')}
+        <div class="summary">${c.summary}</div>
+      </div>
+    </div>
+  `;
+  slot.addEventListener('click', ()=>{
+    slot.classList.toggle('flipped');
+    if(slot.classList.contains('flipped')){
+      document.getElementById('badge-'+i).textContent='済';
+      document.getElementById('badge-'+i).classList.add('on');
+      updateProgress();
+    }
+  });
+  grid.appendChild(slot);
+});
+
+function updateProgress(){
+  const done = document.querySelectorAll('.done-badge.on').length;
+  document.getElementById('pf').style.width = (done/cards.length*100)+'%';
+  document.getElementById('pc').textContent = done+' / '+cards.length;
+}
+</script>
+</body>
+</html>
